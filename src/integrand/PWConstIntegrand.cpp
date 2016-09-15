@@ -38,15 +38,15 @@ PWConstantIntegrand::PWConstantIntegrand(const vector<string>& IntegParams)
 
     _npts = CLParser::FindArgument<double>(IntegParams, NPtsStr) ;
 
-    vector<Point> vp(_npts+4) ;
-    vp[0] =  Point(0, 0) ;
-    vp[1] =  Point(0, 1) ;
-    vp[2] =  Point(1, 0) ;
-    vp[3] =  Point(1, 1) ;
-    for (int i(0); i<_npts; i++)
-        vp[i+4] = Point(MyRandom(), MyRandom()) ;
+    // vector<Point> vp(_npts+4) ;
+    // vp[0] =  Point(0, 0) ;
+    // vp[1] =  Point(0, 1) ;
+    // vp[2] =  Point(1, 0) ;
+    // vp[3] =  Point(1, 1) ;
+    // for (int i(0); i<_npts; i++)
+    //     vp[i+4] = Point(MyRandom(), MyRandom()) ;
 
-    _dt.insert(vp.begin(), vp.end()) ;
+    // _dt.insert(vp.begin(), vp.end()) ;
 
 
     double refInt(0);
