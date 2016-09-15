@@ -35,13 +35,13 @@ QuadPixelIntegrand::QuadPixelIntegrand(const vector<string>& IntegParams)
     double f[4] ;
     for (int i(0); i<4;i++)
         f[i] = _randomize ? MyRandom():MultiArg[i] ;
-    pts[0] = Point(0,f[0]) ;
-    pts[1] = Point(f[1],1) ;
-    pts[2] = Point(1,1-f[2]) ;
-    pts[3] = Point(1-f[3],0) ;
+    // pts[0] = Point(0,f[0]) ;
+    // pts[1] = Point(f[1],1) ;
+    // pts[2] = Point(1,1-f[2]) ;
+    // pts[3] = Point(1-f[3],0) ;
 
-    RefVal = 1 - 0.5f*(f[0] + f[1] + f[2] + f[3] - (f[0]*f[1] +
-                f[1]*f[2] + f[2]*f[3] + f[3]*f[0]) ) ;
+    // RefVal = 1 - 0.5f*(f[0] + f[1] + f[2] + f[3] - (f[0]*f[1] +
+    //             f[1]*f[2] + f[2]*f[3] + f[3]*f[0]) ) ;
 
 // 	cout << "Refval = " << RefVal << endl ;
 }
