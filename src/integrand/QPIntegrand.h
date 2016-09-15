@@ -38,7 +38,7 @@ class QuadPixelIntegrand : public Integrand
 //    typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 //    typedef K::Point_2 Point;
 
-    Point pts[4];
+//    Point pts[4];
     static const string PointsStr ; // = "--points"
 
 
