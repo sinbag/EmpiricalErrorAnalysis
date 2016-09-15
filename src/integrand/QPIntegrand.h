@@ -4,8 +4,8 @@
 #include <integrand.h>
 
 // CGAL is used to test if points are within the quad
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Polygon_2_algorithms.h>
+// #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+// #include <CGAL/Polygon_2_algorithms.h>
 
 
 
@@ -35,8 +35,8 @@ class QuadPixelIntegrand : public Integrand
     friend class IntegrandPrototype;
 
      private:
-    typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
-    typedef K::Point_2 Point;
+//    typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
+//    typedef K::Point_2 Point;
 
     Point pts[4];
     static const string PointsStr ; // = "--points"
