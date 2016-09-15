@@ -52,7 +52,7 @@ QuadPixelIntegrand::QuadPixelIntegrand(const vector<string>& IntegParams)
 double QuadPixelIntegrand::operator () (const Point2d& p) const
 {
     double eval(0);
-    Point pt(p.x, p.y) ;
+        // Point pt(p.x, p.y) ;
     // CGAL::Bounded_side test = CGAL::bounded_side_2(pts, pts+4, pt, K()) ;
     // eval =  (test == CGAL::ON_BOUNDED_SIDE) ? 1: 0 ;
     return eval ;
