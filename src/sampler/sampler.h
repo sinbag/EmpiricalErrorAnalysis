@@ -186,7 +186,7 @@ public:
     virtual ~latinhypercubeSampler() {}
 
 private:
-    latinhypercubeSampler() {SamplingType = "latinhypercube" ;}
+    latinhypercubeSampler() {SamplingType = "LatinHypercube" ;}
     latinhypercubeSampler(const vector<string>& SamplerParams);
     friend class SamplerPrototype;
 };
@@ -203,7 +203,7 @@ public:
     virtual ~haltonSampler() {}
 
 private:
-    haltonSampler() {SamplingType = "halton" ;}
+    haltonSampler() {SamplingType = "Halton" ;}
     haltonSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
 };
@@ -220,7 +220,7 @@ public:
     virtual ~sobolSampler() {}
 
 private:
-    sobolSampler() {SamplingType = "sobol" ;}
+    sobolSampler() {SamplingType = "Sobol" ;}
     sobolSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
 };

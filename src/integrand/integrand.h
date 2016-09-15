@@ -43,8 +43,8 @@ class Integrand
 {
      public:
     virtual Integrand* GenIntegrand(const vector<string>& IntegParams) = 0 ;
-    virtual double operator () (const Point2d& p, const string &SamplerType) const = 0;
-    virtual void MultipointEval (vector<double>& out, const vector<Point2d>& vp, const string &SamplerType) const ;
+    virtual double operator () (const Point2d& p) const = 0;
+    virtual void MultipointEval (vector<double>& out, const vector<Point2d>& vp) const ;
     virtual double ReferenceValue() const {return RefVal;}
     virtual string GetType() const {return IntegrandType; }
     virtual ~Integrand() {}

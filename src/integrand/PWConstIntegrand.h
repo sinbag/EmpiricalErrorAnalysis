@@ -26,7 +26,7 @@ class PWConstantIntegrand : public Integrand
 {
      public:
     virtual Integrand* GenIntegrand(const vector<string>& IntegParams) ;
-    virtual double operator () (const Point2d& p, const string &SamplerType) const ;
+    virtual double operator () (const Point2d& p) const ;
     virtual ~PWConstantIntegrand() ;
 
      protected:

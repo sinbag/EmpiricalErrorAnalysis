@@ -46,7 +46,6 @@ Analyzer* MSEAnalyzer::createAnalyzer(Sampler *s, const vector<string> &Analyzer
 }
 
 MSEAnalyzer::~MSEAnalyzer(){
-    //delete [] _integrand;
 }
 
 MSEAnalyzer::MSEAnalyzer(Sampler* s, const vector<string>& AnalyzerParams, const vector<std::string> &IntegString) {
@@ -150,7 +149,7 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
             _sampler->MTSample(S, n) ;
 
             vector<double> res ;
-            _integrand->MultipointEval(res, S, _sampler->GetType()) ;
+            _integrand->MultipointEval(res, S) ;
             double m = Mean(res);
             ms[r] = m ;
             _avgM[i] += m ;

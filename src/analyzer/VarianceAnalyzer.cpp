@@ -43,7 +43,6 @@ Analyzer* VarianceAnalyzer::createAnalyzer(Sampler *s, const vector<string> &Ana
 }
 
 VarianceAnalyzer::~VarianceAnalyzer(){
-    //delete [] _integrand;
 }
 
 VarianceAnalyzer::VarianceAnalyzer(Sampler* s, const vector<string>& AnalyzerParams, const vector<std::string> &IntegString) {
@@ -138,10 +137,10 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
        {
            _pts.resize(0);
            _sampler->MTSample(_pts, n) ;
-           _sampler->homogenize_samples(_pts);
+           //_sampler->homogenize_samples(_pts);
 
            vector<double> res;
-           _integrand->MultipointEval(res, _pts, _sampler->GetType()) ;
+           _integrand->MultipointEval(res, _pts) ;
            double integralVal = progressive::MCEstimator(res);
 
            progressive::compute_mean(mean, integralVal, trial);
@@ -157,5 +156,6 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
 
      ofsmean.close();
      ofsvar.close();
+
 }
 

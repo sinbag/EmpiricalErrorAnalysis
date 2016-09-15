@@ -69,7 +69,7 @@ Integrand* IntegrandPrototype::Generate(const vector<string>& IntegSection)
 // the evaluation at each Point2d will be as
 // specified in the derived class
 /////////////////////////////////////////////
-void Integrand::MultipointEval (vector<double>& out, const vector<Point2d>& vp, const string &SamplerType) const
+void Integrand::MultipointEval (vector<double>& out, const vector<Point2d>& vp) const
 {
     string currIntegrand = GetType();
 
@@ -82,7 +82,7 @@ void Integrand::MultipointEval (vector<double>& out, const vector<Point2d>& vp, 
 
         //Store the size of the samples as a point to pass to the PBRTIntegrand
         Point2d dummySample(vp.size(), 0);
-        out[0] = (*this)(dummySample, SamplerType);
+        out[0] = (*this)(dummySample);
     }
     else{
         const  int n (vp.size());
@@ -90,7 +90,7 @@ void Integrand::MultipointEval (vector<double>& out, const vector<Point2d>& vp, 
 
         #pragma omp parallel for
         for(int i=0; i<n; i++)
-            out[i] = (*this)(vp[i], SamplerType) ;
+            out[i] = (*this)(vp[i]) ;
     }
 }
 

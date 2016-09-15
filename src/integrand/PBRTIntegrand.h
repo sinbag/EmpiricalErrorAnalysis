@@ -12,12 +12,14 @@
 
 #include "integrand.h"
 #include <Analyzer.h>
+#include <string>
+using std::string;
 
 class PBRTIntegrand : public Integrand {
 
 public:
     virtual Integrand* GenIntegrand(const vector<string>& IntegParams) ;
-    virtual double operator () (const Point2d& p, const string &SamplerType) const ;
+    virtual double operator () (const Point2d& p) const ;
     virtual ~PBRTIntegrand() ;
 
 protected:
@@ -26,6 +28,13 @@ protected:
     friend class IntegrandPrototype;
 
 private:
+
+//    int _nspp;
+//    static const string NsppStr; // "--nspp"
+
+    std::string _pbrtSampler;
+    static const string PbrtSamplerStr; // "--pbrtstype"
+
     double _crop[4];
     std::string _pathexec, _pathscene, _pathpyscript, _imgname;
     static const string CropStr ; // = "--crop"
@@ -35,6 +44,7 @@ private:
     static const string ExrImgNameStr ; // = "--img"
 
     Analyzer* _analyzer;
+    string _PBRTExecStr, _PBRTOutImgStr ;
 };
 
 #endif

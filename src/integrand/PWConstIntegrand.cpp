@@ -15,7 +15,7 @@ const string PWConstantIntegrand::RandStr = "--random" ;
 const string PWConstantIntegrand::NPtsStr = "--npts" ;
 
 // Evaluation at p returns weight associated with the triangle in which p is located
-double PWConstantIntegrand::operator () (const Point2d& p, const string &SamplerType) const
+double PWConstantIntegrand::operator () (const Point2d& p) const
 {
     return  _dt.locate(Point(p.x, p.y))->info() ;
 }
