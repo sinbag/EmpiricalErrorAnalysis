@@ -80,26 +80,26 @@ Sampler::~Sampler()
 ///
 void Sampler::homogenize_samples(std::vector<Point2d>& inSamples){
 
-//    int nPoints = inSamples.size();
-//    double domain[] = {bBoxMin, bBoxMin, bBoxMax, bBoxMax};
+    int nPoints = inSamples.size();
+    double domain[] = {bBoxMin, bBoxMin, bBoxMax, bBoxMax};
 
-//    Point2d random_shift_vector = Point2d((2*drand48()-1)*domain[2], (2*drand48()-1)*domain[3]);
+    Point2d random_shift_vector = Point2d((2*drand48()-1)*domain[2], (2*drand48()-1)*domain[3]);
 
-//    for(int i=0; i < nPoints; i++){
+    for(int i=0; i < nPoints; i++){
 
-//        inSamples[i].x() = inSamples[i].x() + random_shift_vector.x();
-//        inSamples[i].y() = inSamples[i].y() + random_shift_vector.y();
+        inSamples[i].x = inSamples[i].x + random_shift_vector.x;
+        inSamples[i].y = inSamples[i].y + random_shift_vector.y;
 
-//        if(inSamples[i].x() < domain[0])
-//            inSamples[i].x() = domain[2] + inSamples[i].x() - domain[0];
-//        else if(inSamples[i].x() > domain[2])
-//            inSamples[i].x() = domain[0] + inSamples[i].x() - domain[2];
+        if(inSamples[i].x < domain[0])
+            inSamples[i].x = domain[2] + inSamples[i].x - domain[0];
+        else if(inSamples[i].x > domain[2])
+            inSamples[i].x = domain[0] + inSamples[i].x - domain[2];
 
-//        if(inSamples[i].y() < domain[1])
-//            inSamples[i].y() = domain[3] + inSamples[i].y() - domain[1];
-//        else if(inSamples[i].y() > domain[3])
-//            inSamples[i].y() = domain[1] + inSamples[i].y() - domain[3];
-//    }
+        if(inSamples[i].y < domain[1])
+            inSamples[i].y = domain[3] + inSamples[i].y - domain[1];
+        else if(inSamples[i].y > domain[3])
+            inSamples[i].y = domain[1] + inSamples[i].y - domain[3];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,32 +114,32 @@ void Sampler::toroidal_wrapping(std::vector<Point2d> &inSamples){
 
     int nPoints = inSamples.size();
 
-//    for(int i=0; i < nPoints; i++){
+    for(int i=0; i < nPoints; i++){
 
-//        if(inSamples[i].x() < 0){
-//            double temp = - inSamples[i].x();
-//            int itemp = floor(temp);
-//            double frac = temp - itemp;
-//            inSamples[i].x() = 1 - frac;
-//        }
-//        else if(inSamples[i].x() > 1){
-//            int itemp = floor(inSamples[i].x());
-//            double frac = inSamples[i].x() - itemp;
-//            inSamples[i].x() = frac;
-//        }
+        if(inSamples[i].x < 0){
+            double temp = - inSamples[i].x;
+            int itemp = floor(temp);
+            double frac = temp - itemp;
+            inSamples[i].x = 1 - frac;
+        }
+        else if(inSamples[i].x > 1){
+            int itemp = floor(inSamples[i].x);
+            double frac = inSamples[i].x - itemp;
+            inSamples[i].x = frac;
+        }
 
-//        if(inSamples[i].y() < 0){
-//            double temp = - inSamples[i].y();
-//            int itemp = floor(temp);
-//            double frac = temp - itemp;
-//            inSamples[i].y() = 1 - frac;
-//        }
-//        else if(inSamples[i].y() > 1){
-//            int itemp = floor(inSamples[i].y());
-//            double frac = inSamples[i].y() - itemp;
-//            inSamples[i].y() = frac;
-//        }
-//    }
+        if(inSamples[i].y < 0){
+            double temp = - inSamples[i].y;
+            int itemp = floor(temp);
+            double frac = temp - itemp;
+            inSamples[i].y = 1 - frac;
+        }
+        else if(inSamples[i].y > 1){
+            int itemp = floor(inSamples[i].y);
+            double frac = inSamples[i].y - itemp;
+            inSamples[i].y = frac;
+        }
+    }
 }
 
 
@@ -171,7 +171,6 @@ void randomSampler::MTSample(vector<Point2d>& pts, int n) const
         x = (maxRange * x) + bBoxMin;
         y = (maxRange * y) + bBoxMin;
 
-        //pts[i] = Point2d(x,y) ;
         pts.push_back(Point2d(x,y));
     }
 }

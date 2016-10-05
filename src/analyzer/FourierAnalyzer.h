@@ -9,12 +9,12 @@ class FourierAnalyzer : public Analyzer{
 
 public:
      void RunAnalysis(std::string &prefix);
-     Analyzer* createAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
+     Analyzer* createAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerParams);
 
 private:
-    FourierAnalyzer() { AnalyzerType = "fourier" ;}
+    FourierAnalyzer() { AnalyzerType = "fourier" ; }
     ~FourierAnalyzer();
-    FourierAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
+    FourierAnalyzer(Sampler *s, const vector<string>& AnalyzerParams);
 
     void continuous_fourier_spectrum();
     void discrete_fourier_spectrum(const double *mydata);

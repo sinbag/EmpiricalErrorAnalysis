@@ -10,6 +10,7 @@
 #include <cmdlnparser.h>
 
 #include <iostream>
+#include <memory>
 
 const string DiskIntegrand::RadiusStr = "--rad" ;
 const string DiskIntegrand::CenterStr = "--center" ;
@@ -29,13 +30,14 @@ Integrand* DiskIntegrand::GenIntegrand(const vector<string>& IntegParams)
 DiskIntegrand::DiskIntegrand(const vector<string>& IntegParams)
 {
   IntegrandType = "Disk";
-  RefVal = 0.0;
   _diskRadius = CLParser::FindArgument<double>(IntegParams, RadiusStr) ;
 
   std::vector<double> MultiArgs;
   CLParser::FindMultiArgs<double>(2, MultiArgs, IntegParams, CenterStr) ;
 
   _diskCenter = Point2d(MultiArgs[0], MultiArgs[1]);
+
+  RefVal = M_PI * _diskRadius * _diskRadius;
 }
 
 /////////////////////////////////////////////////////////////

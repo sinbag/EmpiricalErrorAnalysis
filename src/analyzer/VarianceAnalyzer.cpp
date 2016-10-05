@@ -38,14 +38,15 @@ using namespace std;
 /// \return
 ///
 
-Analyzer* VarianceAnalyzer::createAnalyzer(Sampler *s, const vector<string> &AnalyzerParams, const vector<std::string> &IntegString){
-    return new VarianceAnalyzer(s, AnalyzerParams, IntegString);
+Analyzer* VarianceAnalyzer::createAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerParams) {
+    return new VarianceAnalyzer(s, I, AnalyzerParams);
 }
 
 VarianceAnalyzer::~VarianceAnalyzer(){
 }
 
-VarianceAnalyzer::VarianceAnalyzer(Sampler* s, const vector<string>& AnalyzerParams, const vector<std::string> &IntegString) {
+VarianceAnalyzer::VarianceAnalyzer(Sampler* s, Integrand *I, const vector<string>& AnalyzerParams)
+    : _integrand(I){
 
     AnalyzerType = "Variance";
     _sampler = s;
@@ -55,7 +56,7 @@ VarianceAnalyzer::VarianceAnalyzer(Sampler* s, const vector<string>& AnalyzerPar
     // create integrand object from the -I section of command line
     // implemented as a virtual constructor
     // treat this as a call to the new operator, and delete the object integrand responsibly
-    _integrand = IntegrandPrototype::Generate(IntegString) ;
+//    _integrand = (IntegrandPrototype::Generate(IntegString)) ;
 }
 
 namespace progressive {
@@ -109,10 +110,12 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
     std::stringstream ss;
 
     ss.str(std::string());
+//     ss << prefix << "-mean-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
     ss << prefix << "-mean.txt";
     std::ofstream ofsmean(ss.str().c_str(), std::ofstream::app) ;
 
     ss.str(std::string());
+//     ss << prefix << "-variance-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
     ss << prefix << "-var.txt";
     std::ofstream ofsvar(ss.str().c_str(), std::ofstream::app) ;
 
@@ -132,12 +135,17 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
      for (int i=0; i<_nSamples.size(); i++){
        const int n(_nSamples[i]) ;
 
+       std::stringstream progress;
        double mean = 0.0, variance = 0.0;
        for (int trial=1; trial <= _nTrials; trial++)
        {
+           progress << "\r trials: " << trial << "/" << _nTrials << " N: " << n;
+           std::cerr << progress.str();
+           progress.clear();
+
            _pts.resize(0);
            _sampler->MTSample(_pts, n) ;
-           //_sampler->homogenize_samples(_pts);
+           _sampler->homogenize_samples(_pts);
 
            vector<double> res;
            _integrand->MultipointEval(res, _pts) ;
@@ -156,6 +164,6 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
 
      ofsmean.close();
      ofsvar.close();
-
+     std::cerr << std::endl;
 }
 

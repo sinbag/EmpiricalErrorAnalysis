@@ -10,7 +10,7 @@ const string QuadPixelIntegrand::PointsStr = "--points" ;
 // 				White quad within black pixel
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Integrand* QuadPixelIntegrand::GenIntegrand(const vector<string>& IntegParams)
+Integrand *QuadPixelIntegrand::GenIntegrand(const vector<string>& IntegParams)
 {
     return new QuadPixelIntegrand(IntegParams) ;
 }

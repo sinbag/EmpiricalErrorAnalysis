@@ -6,7 +6,7 @@
 // 			Piecewise constant simplicial complex in 2D
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Integrand* PWConstantIntegrand::GenIntegrand(const vector<string>& IntegParams)
+Integrand *PWConstantIntegrand::GenIntegrand(const vector<string>& IntegParams)
 {
     return new PWConstantIntegrand(IntegParams) ;
 }

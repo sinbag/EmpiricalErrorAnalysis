@@ -19,7 +19,7 @@ const string GaussianIntegrand::CenterStr = "--center" ;
 
 Integrand* GaussianIntegrand::GenIntegrand(const vector<string>& IntegParams)
 {
-  return new GaussianIntegrand(IntegParams) ;
+    return new GaussianIntegrand(IntegParams) ;
 }
 
 
@@ -29,16 +29,27 @@ Integrand* GaussianIntegrand::GenIntegrand(const vector<string>& IntegParams)
 /////////////////////////////////////////////
 GaussianIntegrand::GaussianIntegrand(const vector<string>& IntegParams)
 {
-  IntegrandType = "Gaussian";
-  RefVal = 0.0;
-  std::vector<double> MultiArgCenter, MultiArgSigma;
-  CLParser::FindMultiArgs<double>(2, MultiArgCenter, IntegParams, CenterStr) ;
-  CLParser::FindMultiArgs<double>(2, MultiArgSigma, IntegParams, SigmaStr) ;
+    IntegrandType = "Gaussian";
+    std::vector<double> MultiArgCenter, MultiArgSigma;
+    CLParser::FindMultiArgs<double>(2, MultiArgCenter, IntegParams, CenterStr) ;
+    CLParser::FindMultiArgs<double>(2, MultiArgSigma, IntegParams, SigmaStr) ;
 
-  _gaussianCenter = Point2d(MultiArgCenter[0], MultiArgCenter[1]);
+    _gaussianCenter = Point2d(MultiArgCenter[0], MultiArgCenter[1]);
 
-  _xsigma = MultiArgSigma[0];
-  _ysigma = MultiArgSigma[1];
+    _xsigma = MultiArgSigma[0];
+    _ysigma = MultiArgSigma[1];
+
+        RefVal = 0.0;
+
+//    double mux = _gaussianCenter.x();
+//    double muy = _gaussianCenter.y();
+
+//    double sqrt2sigmax = sqrt(2.0)*_xsigma;
+//    double sqrt2sigmay = sqrt(2.0)*_ysigma;
+//    double I1 = (boost::math::erf((1-mux)/sqrt2sigmax) + boost::math::erf(mux / sqrt2sigmax));
+//    double I2 = (-boost::math::erf((-1+muy)/sqrt2sigmay) + boost::math::erf(muy / sqrt2sigmay));
+
+//    RefVal = 0.25 * I1 * I2;
 
 }
 
@@ -49,17 +60,17 @@ GaussianIntegrand::GaussianIntegrand(const vector<string>& IntegParams)
 
 double GaussianIntegrand::operator () (const Point2d& p) const
 {
-  double eval(0);
-  double cx = p.x - _gaussianCenter.x;
-  double cy = p.y - _gaussianCenter.y;
+    double eval(0);
+    double cx = p.x - _gaussianCenter.x;
+    double cy = p.y - _gaussianCenter.y;
 
-  double normalizationFactor = 1.0;//1.0/(2*PI*_xsigma*_ysigma);
-  double xRatio = cx / _xsigma;
-  double yRatio = cy / _ysigma;
-  eval  = normalizationFactor * exp(-0.5*(xRatio*xRatio + yRatio*yRatio));
-  return eval ;
+    double normalizationFactor = 1.0/(2*M_PI*_xsigma*_ysigma);
+    double xRatio = cx / _xsigma;
+    double yRatio = cy / _ysigma;
+    eval  = normalizationFactor * exp(-0.5*(xRatio*xRatio + yRatio*yRatio));
+    return eval ;
 }
 
-GaussianIntegrand::~GaussianIntegrand()
-{}
+GaussianIntegrand::~GaussianIntegrand(){
+}
 

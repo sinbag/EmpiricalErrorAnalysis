@@ -20,7 +20,7 @@ public:
     double ReferenceValue() const {return RefVal;}
 
 protected:
-  GaussianIntegrand() { RefVal = 0.0; IntegrandType = "Gaussian" ; }
+  GaussianIntegrand() { RefVal = 0.0; IntegrandType = "Gaussian" ;}
   GaussianIntegrand(const vector<string>& IntegParams);
   friend class IntegrandPrototype;
 

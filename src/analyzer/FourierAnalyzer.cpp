@@ -21,11 +21,12 @@ FourierAnalyzer::~FourierAnalyzer(){
     delete [] _powerSpectrum;
 }
 
-Analyzer* FourierAnalyzer::createAnalyzer(Sampler *s, const vector<string> &AnalyzerParams, const vector<std::string> &IntegString){
-    return new FourierAnalyzer(s, AnalyzerParams, IntegString);
+Analyzer* FourierAnalyzer::createAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerParams){
+    return new FourierAnalyzer(s, AnalyzerParams);
 }
 
-FourierAnalyzer::FourierAnalyzer(Sampler* s, const vector<string>& AnalyzerParams, const vector<std::string> &IntegString) : _trialStepOut(1), _frequencyStep(1.0) {
+FourierAnalyzer::FourierAnalyzer(Sampler* s, const vector<string>& AnalyzerParams)
+    : _trialStepOut(1), _frequencyStep(1.0) {
 
     AnalyzerType = "fourier";
     _sampler = s;
@@ -141,6 +142,7 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
     ///
     float* powerAccum = new float[_xRes * _yRes]();
 
+    std::stringstream progress;
     for(int j = 0; j < _nSamples.size(); j++){
 
         const int n(_nSamples[j]) ;
@@ -150,7 +152,9 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
             _pts.resize(0);
             _sampler->MTSample(_pts, n);
 
-            fprintf(stderr, "\r trial/N:  %d / %d", trial, int(_pts.size()));
+            progress << "\r trials: " << trial << "/" << _nTrials << " N: " << _pts.size();
+            std::cerr << progress.str();
+            progress.clear();
 
             for(int i=0; i<_xRes*_yRes; i++)
                 _powerSpectrum[i] = 0.;

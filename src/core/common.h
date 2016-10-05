@@ -35,9 +35,9 @@ using namespace eea;
 class IO{
 public:
     static void WriteEPS(std::string &filename, const std::vector<Point2d>& pts, double radius=2.0, double scale=512.0);
-    static void WriteEXRrgba(const std::string& filename, const float* rgb, int width, int height);
-    static void WriteEXRrgb(const std::string& filename, const float* rgb, int width, int height);
-    static void WriteEXRgrey(const std::string &filename, const float *rgb, int width, int height);
+    static int WriteEXRrgba(const std::string& filename, const float* rgb, int width, int height);
+    static int WriteEXRrgb(const std::string& filename, const float* rgb, int width, int height);
+    static int WriteEXRgrey(const std::string &filename, const float *rgb, int width, int height);
     static bool LoadEXRrgba(const char* filename, float** rgba, int *w, int *h);
 };
 

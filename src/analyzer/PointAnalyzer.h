@@ -16,11 +16,11 @@ class PointAnalyzer : public Analyzer{
 
 public:
      void RunAnalysis(string& prefix);
-     Analyzer* createAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
+     Analyzer* createAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerParams);
     ~PointAnalyzer();
 private:
-    PointAnalyzer() { AnalyzerType = "pts" ;}
-    PointAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
+    PointAnalyzer() { AnalyzerType = "pts" ; }
+    PointAnalyzer(Sampler *s, const vector<string>& AnalyzerParams);
 
     friend class AnalyzerPrototype;
 

@@ -18,11 +18,11 @@ using namespace eea;
 
 PointAnalyzer::~PointAnalyzer(){}
 
-Analyzer* PointAnalyzer::createAnalyzer(Sampler *s, const vector<string> &AnalyzerParams, const vector<string> &IntegString){
-    return new PointAnalyzer(s, AnalyzerParams, IntegString);
+Analyzer* PointAnalyzer::createAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerParams){
+    return new PointAnalyzer(s, AnalyzerParams);
 }
 
-PointAnalyzer::PointAnalyzer(Sampler* s, const vector<string>& AnalyzerParams, const vector<string> &IntegString) {
+PointAnalyzer::PointAnalyzer(Sampler* s, const vector<string>& AnalyzerParams) {
 
     AnalyzerType = "pts";
     _sampler = s;

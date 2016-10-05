@@ -34,7 +34,7 @@ void IO::WriteEPS(std::string& filename, const std::vector<Point2d>& pts, double
 #define TINYEXR_IMPLEMENTATION
 #include <tinyexr/tinyexr.h>
 
-void IO::WriteEXRrgba(const std::string& filename, const float* rgb, int width, int height) {
+int IO::WriteEXRrgba(const std::string& filename, const float* rgb, int width, int height) {
     EXRHeader header;
     InitEXRHeader(&header);
 
@@ -85,16 +85,16 @@ void IO::WriteEXRrgba(const std::string& filename, const float* rgb, int width, 
     int ret = SaveEXRImageToFile(&image, &header, filename.c_str(), &err);
     if (ret != TINYEXR_SUCCESS) {
         fprintf(stderr, "Save EXR err: %s\n", err);
-        //return ret;
+        return ret;
     }
-    printf("Saved exr file. [ %s ] \n", filename.c_str());
+    //printf("Saved exr file. [ %s ] \n", filename.c_str());
 
     free(header.channels);
     free(header.pixel_types);
     free(header.requested_pixel_types);
 }
 
-void IO::WriteEXRrgb(const std::string& filename, const float* rgb, int width, int height) {
+int IO::WriteEXRrgb(const std::string& filename, const float* rgb, int width, int height) {
     EXRHeader header;
     InitEXRHeader(&header);
 
@@ -141,7 +141,7 @@ void IO::WriteEXRrgb(const std::string& filename, const float* rgb, int width, i
     int ret = SaveEXRImageToFile(&image, &header, filename.c_str(), &err);
     if (ret != TINYEXR_SUCCESS) {
         fprintf(stderr, "Save EXR err: %s\n", err);
-        //return ret;
+        return ret;
     }
     printf("Saved exr file. [ %s ] \n", filename.c_str());
 
@@ -153,7 +153,7 @@ void IO::WriteEXRrgb(const std::string& filename, const float* rgb, int width, i
 
 
 
-void IO::WriteEXRgrey(const std::string& filename, const float* rgb, int width, int height) {
+int IO::WriteEXRgrey(const std::string& filename, const float* rgb, int width, int height) {
     EXRHeader header;
     InitEXRHeader(&header);
 
@@ -198,10 +198,10 @@ void IO::WriteEXRgrey(const std::string& filename, const float* rgb, int width, 
 
     const char* err;
     int ret = SaveEXRImageToFile(&image, &header, filename.c_str(), &err);
-    //if (ret != TINYEXR_SUCCESS) {
-        //fprintf(stderr, "Save EXR err: %s\n", err);
-        //return ret;
-    //}
+    if (ret != TINYEXR_SUCCESS) {
+        fprintf(stderr, "Save EXR err: %s\n", err);
+        return ret;
+    }
     //printf("Saved exr file. [ %s ] \n", filename.c_str());
 
     free(header.channels);

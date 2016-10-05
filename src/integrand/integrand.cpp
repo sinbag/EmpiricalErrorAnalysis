@@ -52,7 +52,7 @@ IntegrandPrototype::IntegrandPrototype()
 /////////////////////////////////////////////
 // You should not need to modify this
 /////////////////////////////////////////////
-Integrand* IntegrandPrototype::Generate(const vector<string>& IntegSection)
+Integrand *IntegrandPrototype::Generate(const vector<string>& IntegSection)
 {
     string type = CLParser::FindArgument<string>(IntegSection, CLArg::IntegrandType) ;
 
@@ -88,7 +88,7 @@ void Integrand::MultipointEval (vector<double>& out, const vector<Point2d>& vp) 
         const  int n (vp.size());
         out.resize(n) ;
 
-        #pragma omp parallel for
+//#pragma omp parallel for
         for(int i=0; i<n; i++)
             out[i] = (*this)(vp[i]) ;
     }

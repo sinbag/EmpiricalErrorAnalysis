@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <iterator>
+#include <iomanip>
 
 using namespace std;
 
@@ -41,14 +42,15 @@ using namespace std;
 /// MSEAnalyzer should only be used if the Reference Value (RefVal) of the integrand is known
 ///
 
-Analyzer* MSEAnalyzer::createAnalyzer(Sampler *s, const vector<string> &AnalyzerParams, const vector<std::string> &IntegString){
-    return new MSEAnalyzer(s, AnalyzerParams, IntegString);
+Analyzer* MSEAnalyzer::createAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerParams){
+    return new MSEAnalyzer(s, I, AnalyzerParams);
 }
 
 MSEAnalyzer::~MSEAnalyzer(){
 }
 
-MSEAnalyzer::MSEAnalyzer(Sampler* s, const vector<string>& AnalyzerParams, const vector<std::string> &IntegString) {
+MSEAnalyzer::MSEAnalyzer(Sampler* s, Integrand *I, const vector<string>& AnalyzerParams)
+    : _integrand(I){
 
     AnalyzerType = "mse";
     _sampler = s;
@@ -58,7 +60,7 @@ MSEAnalyzer::MSEAnalyzer(Sampler* s, const vector<string>& AnalyzerParams, const
     // create integrand object from the -I section of command line
     // implemented as a virtual constructor
     // treat this as a call to the new operator, and delete the object integrand responsibly
-    _integrand = IntegrandPrototype::Generate(IntegString) ;
+    //_integrand = (IntegrandPrototype::Generate(IntegString)) ;
 }
 
 namespace // some functions to compute simple statistics of vector<double>
@@ -115,13 +117,17 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
     std::stringstream ss;
 
     ss.str(std::string());
+//     ss << prefix << "-mean-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
     ss << prefix << "-mean.txt";
     std::ofstream ofsmean(ss.str().c_str(), std::ofstream::app) ;
 
     ss.str(std::string());
-    ss << prefix << "-mse.txt";
+//     ss << prefix << "-mse-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
+    ss << prefix << "-var.txt";
     std::ofstream ofsmse(ss.str().c_str(), std::ofstream::app) ;
 
+    ofsmean << std::fixed << std::setprecision(15);
+    ofsmse << std::fixed << std::setprecision(15);
     //########################################################################################################
 
     const double Iref (_integrand->ReferenceValue()) ;
@@ -143,8 +149,13 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
         const int n(_nSamples[i]) ;
         vector<double> ms(_nTrials,0) ;
 
+        std::stringstream progress;
         for (int r=0; r<_nTrials; r++)
         {
+            progress << "\r trials: " << r << "/" << _nTrials << " N: " << n;
+            std::cerr << progress.str();
+            progress.clear();
+
             vector<Point2d> S;
             _sampler->MTSample(S, n) ;
 
@@ -156,16 +167,15 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
             _MSE[i] += (Iref-m)*(Iref-m) ;
         }
         //_avgV[i] = Var(ms) ;
-        _avgM[i] /= _nTrials ;
+        _avgM[i] /= float(_nTrials) ;
         _MSE[i] /= float(_nTrials) ;
 
        ofsmean << n << " "<< _avgM[i] << std::endl;
        ofsmse << n << " "<< _MSE[i] << std::endl;
 
     }
-
-
     LogLogLinearFit(_nSamples, _MSE, _convRate, _YIntError);
+    std::cerr << std::endl;
 }
 
 
