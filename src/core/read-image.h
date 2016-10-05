@@ -2,7 +2,6 @@
 #define READIMAGE_H
 
 #include <iostream>
-#include <FreeImage.h>
 
 
 bool read_exr_rgba(std::string name, float *&rgba, int &xRes, int &yRes, bool hasAlpha=true);
