@@ -14,9 +14,7 @@
 #include <integrand.h>
 #include <DiskIntegrand.h>
 #include <GaussianIntegrand.h>
-#include <QPIntegrand.h>
 #include <PBRTIntegrand.h>
-#include <PWConstIntegrand.h>
 
 
 using std::vector ;
@@ -39,8 +37,6 @@ IntegrandPrototype::IntegrandPrototype()
 
     ////////////// MODIFY THIS /////////////
     vi.push_back(new DiskIntegrand());
-    vi.push_back(new QuadPixelIntegrand());
-    vi.push_back(new PWConstantIntegrand());
     vi.push_back(new GaussianIntegrand());
     vi.push_back(new PBRTIntegrand());
     // vi.push_back(new MyNewIntegrand());// add a line like this
