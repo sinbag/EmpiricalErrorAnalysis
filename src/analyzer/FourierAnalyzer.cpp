@@ -4,14 +4,6 @@
 #include <fstream>
 #include <iomanip>
 
-#if defined(_OPENMP)
-#ifdef __APPLE__
-#include <libiomp/omp.h>
-#else
-#include <omp.h>
-#endif
-#endif
-
 #define USE_TBB
 ///
 /// \brief FourierAnalyzer::trialStepStr
@@ -150,7 +142,6 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
     ///
     float* powerAccum = new float[_xRes * _yRes]();
 
-    std::stringstream progress;
     for(int j = 0; j < _nSamples.size(); j++){
 
         const int n(_nSamples[j]) ;
@@ -160,9 +151,7 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
             _pts.resize(0);
             _sampler->MTSample(_pts, n);
 
-            progress << "\r trials: " << trial << "/" << _nTrials << " N: " << _pts.size();
-            std::cerr << progress.str();
-            progress.clear();
+           //fprintf(stderr, "\r %d / %d : %d", trial, _nTtrials, n);
 
             for(int i=0; i<_xRes*_yRes; i++)
                 _powerSpectrum[i] = 0.;

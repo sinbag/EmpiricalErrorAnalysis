@@ -135,13 +135,10 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
      for (int i=0; i<_nSamples.size(); i++){
        const int n(_nSamples[i]) ;
 
-       std::stringstream progress;
        double mean = 0.0, variance = 0.0;
        for (int trial=1; trial <= _nTrials; trial++)
        {
-           progress << "\r trials: " << trial << "/" << _nTrials << " N: " << n;
-           std::cerr << progress.str();
-           progress.clear();
+           //fprintf(stderr, "\r %d / %d : %d", trial, _nTtrials, n);
 
            _pts.resize(0);
            _sampler->MTSample(_pts, n) ;

@@ -123,7 +123,7 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
 
     ss.str(std::string());
 //     ss << prefix << "-mse-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
-    ss << prefix << "-var.txt";
+    ss << prefix << "-mse.txt";
     std::ofstream ofsmse(ss.str().c_str(), std::ofstream::app) ;
 
     ofsmean << std::fixed << std::setprecision(15);
@@ -152,9 +152,9 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
         std::stringstream progress;
         for (int r=0; r<_nTrials; r++)
         {
-            progress << "\r trials: " << r << "/" << _nTrials << " N: " << n;
-            std::cerr << progress.str();
-            progress.clear();
+            //progress << "\r trials: " << r << "/" << _nTrials << " N: " << n;
+            //std::cerr << progress.str();
+            //progress.clear();
 
             vector<Point2d> S;
             _sampler->MTSample(S, n) ;
