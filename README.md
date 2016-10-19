@@ -11,7 +11,7 @@ Fourier analysis of numerical integration in Monte Carlo rendering: Theory and P
  * Python (only required for PBRTIntegrand, the source code still compiles and run for other integrands without Python)
 * Use recursive tag to clone from git to add the Openexr submodule:
 ```
-git clone https://github.com/sinbag/EmpiricalErrorAnalysis.git
+git clone --recursive https://github.com/sinbag/EmpiricalErrorAnalysis.git
 ````
 * If you accidentally already cloned FAS2016 without this flag, run the following command to also fetch the OpenEXR dependency:
 ````
