@@ -35,18 +35,31 @@ void PointAnalyzer::RunAnalysis(string &prefix){
 
     for(int j = 0; j <_nSamples.size();j++){
 
-        const int n(_nSamples[j]) ;
-        _sampler->MTSample(_pts, n);
+        for(int trial = 1; trial <= _nTrials; trial++){
 
-        ///
-        ///Uncomment this function if your samples are going out of the domain range
-        ///
-        //_sampler->toroidalWrapping(_pts);
+            const int n(_nSamples[j]) ;
+            _sampler->MTSample(_pts, n);
 
-        std::stringstream ss;
-        ss << prefix << "-" << _sampler->GetType() << "-n" << n << ".txt";
-        string filename = ss.str();
-        IO::WriteEPS(filename, _pts);
+            ///
+            ///Uncomment this function if your samples are going out of the domain range
+            ///
+            //_sampler->toroidalWrapping(_pts);
+
+            ///
+            /// Add index of each file with trailing zeros
+            ///
+            //##########################################################
+            std::stringstream ss;
+            ss.str(std::string());
+            ss << trial;
+            std::string s1 = ss.str();
+            paddedzerosN(s1, _nTrials);
+            //##########################################################
+            ss.str(std::string());
+            ss << prefix << "-" << _sampler->GetType() << "-n" << n << "-" << s1 << ".txt";
+            string filename = ss.str();
+            IO::WriteEPS(filename, _pts);
+        }
     }
 }
 

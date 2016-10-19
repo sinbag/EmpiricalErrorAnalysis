@@ -109,4 +109,3 @@ void write_exr_rgba(std::string name, const T* pixels, int xRes, int yRes){
 template void write_exr_grey(std::string name, const float *pixels, int xRes, int yRes);
 template void write_exr_rgb(std::string name, const float *pixels, int xRes, int yRes);
 template void write_exr_rgba(std::string name, const float *pixels, int xRes, int yRes);
-//template void write_exr_float(std::string name, const float *pixels, int xRes, int yRes);
