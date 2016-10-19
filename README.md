@@ -1,4 +1,4 @@
-# FAS2016
+# Empirical Error Analysis 
 
 ACM SIGGRAPH Courses 2016
 
