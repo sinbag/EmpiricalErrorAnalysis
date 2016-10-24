@@ -23,7 +23,7 @@ git submodule update --init --recursive
 ````
 to see the command line usage. Example to call Disk Integrand for variance analysis is as follows:
 ````
-./build/exec -S --stype stratified -I Disk --rad 0.25 --center 0.5 0.5 -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile testDisk
+./build/exec -S --stype Jittered -I Disk --rad 0.25 --center 0.5 0.5 -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile testDisk
 ````
 * The interface also allow user to call PBRT-v3 code directly using a python script:
  * To perform Variance analysis for pbrt-v3 generated images, user can directly call pbrt from the provided Analysis code (look for PBRTIntegrand in the code). Make sure you have a cropwindow defined in the .pbrt scene file to select the region you are interested in. Variance is computed in an online fashion without any reference image. To save time use --refnspp 0.
