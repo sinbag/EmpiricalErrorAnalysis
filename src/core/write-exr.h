@@ -14,5 +14,4 @@ void write_exr_rgb(std::string name, const T*  pixels, int xRes, int yRes);
 template <typename T>
 void write_exr_rgba(std::string name, const T*  pixels, int xRes, int yRes);
 
-void write_png_grey(std::string filename, std::vector<unsigned char> pixels, unsigned short width, unsigned short height, std::string mode);
 #endif

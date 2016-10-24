@@ -28,7 +28,6 @@ PointAnalyzer::PointAnalyzer(Sampler* s, const vector<string>& AnalyzerParams) {
     _sampler = s;
     CLParser::FindMultiArgs<int>(-1, _nSamples, AnalyzerParams, NSampStr) ;
     _nTrials = CLParser::FindArgument<int>(AnalyzerParams, nTrialsStr) ;
-
 }
 
 void PointAnalyzer::RunAnalysis(string &prefix){

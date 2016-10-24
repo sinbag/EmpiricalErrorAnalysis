@@ -203,7 +203,7 @@ void jitteredSampler::MTSample(vector<Point2d> &pts, int n) const
     double maxRange = bBoxMax - bBoxMin;
     std::random_device rd;
 
-    #pragma omp parallel for
+#pragma omp parallel for
     for (int r=0; r<sqrtN; r++){
         for (int c=0; c<sqrtN; c++){
             ///
@@ -288,16 +288,21 @@ void gjSampler::MTSample(vector<Point2d>& pts, int n) const
     pts.resize(n) ;
 
     std::random_device rd;
-    std::normal_distribution<double> distribution(0,1);
-
     #pragma omp parallel for
     for (int i=0; i<sqrtN; i++)
     {
     for (int j=0; j<sqrtN; j++)
     {
+        ///
+        /// \brief Thread safe version of random number generator
+        ///
         static thread_local std::mt19937 generator(rd());
+        std::normal_distribution<double> distribution(0,1);
+        double tx = distribution(generator);
+        double ty = distribution(generator);
+
         const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
-        const double r1(distribution(generator)*dX*.5), r2(distribution(generator)*dX*.5);
+        const double r1(tx*dX*.5), r2(ty*dX*.5);
         pts[i*sqrtN+j] = Point2d(x+(r1),y+(r2), true);
     }
     }
@@ -342,11 +347,14 @@ void bjSampler::MTSample(vector<Point2d>& pts, int n) const
         std::uniform_real_distribution<double> distribution(0,1);
         double tx = distribution(generator);
         double ty = distribution(generator);
+
+        const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
         const double r1(-.5+tx), r2(-.5+ty);
-        pts[i*sqrtN+j] = Point2d(tx + (r1) * _boxWidth * dX, ty + (r2) * _boxWidth * dY, true);
+        pts[i*sqrtN+j] = Point2d(x+(r1)*_boxWidth*dX,y+(r2)*_boxWidth*dY, true);
     }
     }
 }
+
 
 
 

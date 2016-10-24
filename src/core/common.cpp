@@ -29,4 +29,3 @@ void IO::WriteEPS(std::string& filename, const std::vector<Point2d>& pts, double
     os << "grestore\n";
     os.close();
 }
-
