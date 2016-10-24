@@ -13,7 +13,7 @@ Fourier analysis of numerical integration in Monte Carlo rendering: Theory and P
 ```
 git clone --recursive https://github.com/sinbag/EmpiricalErrorAnalysis.git
 ````
-* If you accidentally already cloned FAS2016 without this flag, run the following command to also fetch the OpenEXR dependency:
+* If you accidentally already cloned the repo without this flag, run the following command to also fetch the OpenEXR dependency:
 ````
 git submodule update --init --recursive
 ````
