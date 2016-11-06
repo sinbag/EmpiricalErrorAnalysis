@@ -8,6 +8,15 @@
 #include <thread>
 #include <iostream>
 
+#if defined(_OPENMP)
+#ifdef __APPLE__
+#include <libiomp/omp.h>
+#else
+#include <omp.h>
+#endif
+#endif
+
+
 using std::cout ;
 using std::stringstream ;
 using std::endl ;
