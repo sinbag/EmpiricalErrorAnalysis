@@ -5,7 +5,14 @@
 #include <iomanip>
 #include <write-exr.h>
 
-#define USE_TBB
+#if defined(_OPENMP)
+#ifdef __APPLE__
+#include <libiomp/omp.h>
+#else
+#include <omp.h>
+#endif
+#endif
+
 ///
 /// \brief FourierAnalyzer::trialStepStr
 ///
