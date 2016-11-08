@@ -204,7 +204,6 @@ void jitteredSampler::Sample(vector<Point2d> &pts, int n) const
     double maxRange = bBoxMax - bBoxMin;
     std::random_device rd;
 
-#pragma omp parallel for
     for (int r=0; r<sqrtN; r++){
         for (int c=0; c<sqrtN; c++){
             ///
@@ -250,7 +249,6 @@ void gridSampler::Sample(vector<Point2d>& pts, int n) const
 
     pts.resize(n) ;
 
-   #pragma omp parallel for
     for (int i=0; i<sqrtN; i++)
     {
     for (int j=0; j<sqrtN; j++)
@@ -289,7 +287,6 @@ void gjSampler::Sample(vector<Point2d>& pts, int n) const
     pts.resize(n) ;
     std::random_device rd;
 
-#pragma omp parallel for
     for (int i=0; i<sqrtN; i++)
     {
     for (int j=0; j<sqrtN; j++)
@@ -336,7 +333,6 @@ void bjSampler::Sample(vector<Point2d>& pts, int n) const
     pts.resize(n) ;
     std::random_device rd;
 
-    #pragma omp parallel for
     for (int i=0; i<sqrtN; i++)
     {
     for (int j=0; j<sqrtN; j++)

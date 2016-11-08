@@ -35,7 +35,6 @@ class SamplerPrototype
     static map<string, Sampler*> exemplars;
 };
 
-
 ///////////////////////////////////////////////
 // Abstract base class for samplers
 ///////////////////////////////////////////////
@@ -43,7 +42,7 @@ class Sampler
 {
 public:
     virtual Sampler* GenSampler(const vector<string>& SamplerParams) = 0 ;
-    virtual void Sample(vector<Point2d>& pts, int n) const = 0;   // thread-safe version
+    virtual void Sample(vector<Point2d>& pts, int n) const = 0;
     virtual string GetType() const {return SamplingType; }
     virtual vector<Point2d>& GetPoints() {return p;}
     virtual ~Sampler();
