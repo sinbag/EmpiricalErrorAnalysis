@@ -16,7 +16,7 @@ else()
         message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
 endif()
 
-find_package(TBB)
+find_package(TBB REQUIRED)
 
 SET(ILMBASE_NAMESPACE_VERSIONING OFF CACHE BOOL " " FORCE)
 SET(OPENEXR_NAMESPACE_VERSIONING OFF CACHE BOOL " " FORCE)
@@ -36,6 +36,7 @@ INCLUDE_DIRECTORIES (
 SET(OPENEXR_LIBS IlmImf Imath Half)
 
 include_directories(
+${TBB_INCLUDE_DIRS}
 ext
 src/core
 src/analyzer
