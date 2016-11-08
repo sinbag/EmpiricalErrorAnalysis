@@ -37,7 +37,7 @@ void PointAnalyzer::RunAnalysis(string &prefix){
         for(int trial = 1; trial <= _nTrials; trial++){
 
             const int n(_nSamples[j]) ;
-            _sampler->MTSample(_pts, n);
+            _sampler->Sample(_pts, n);
 
             ///
             ///Uncomment this function if your samples are going out of the domain range

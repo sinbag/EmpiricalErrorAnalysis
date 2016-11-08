@@ -16,12 +16,7 @@ else()
         message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
 endif()
 
-find_package(OpenMP)
-if(OPENMP_FOUND)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-endif()
+find_package(TBB)
 
 SET(ILMBASE_NAMESPACE_VERSIONING OFF CACHE BOOL " " FORCE)
 SET(OPENEXR_NAMESPACE_VERSIONING OFF CACHE BOOL " " FORCE)
@@ -39,8 +34,6 @@ INCLUDE_DIRECTORIES (
 )
 
 SET(OPENEXR_LIBS IlmImf Imath Half)
-
-#find_package(TBB)
 
 include_directories(
 ext
@@ -67,10 +60,6 @@ src/sampler/*.h
 
 add_executable(eea ${SOURCE} ${HEADERS})
 
-if(APPLE)
-TARGET_LINK_LIBRARIES(eea blas gmp  ${OPENEXR_LIBS}) #${TBB_LIBRARIES}
-else()
-TARGET_LINK_LIBRARIES(eea blas gomp gmp ${OPENEXR_LIBS}) #${TBB_LIBRARIES}
-endif(APPLE)
+TARGET_LINK_LIBRARIES(eea blas gmp ${OPENEXR_LIBS} ${TBB_LIBRARIES})
 
 install(TARGETS eea RUNTIME DESTINATION bin)

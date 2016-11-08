@@ -5,13 +5,10 @@
 #include <iomanip>
 #include <write-exr.h>
 
-#if defined(_OPENMP)
-#ifdef __APPLE__
-#include <libiomp/omp.h>
-#else
-#include <omp.h>
-#endif
-#endif
+#include <tbb/tbb.h>
+#include <tbb/blocked_range.h>
+#include <tbb/parallel_for.h>
+#include <tbb/task_scheduler_init.h>
 
 ///
 /// \brief FourierAnalyzer::trialStepStr
@@ -57,31 +54,30 @@ void FourierAnalyzer::continuous_fourier_spectrum(){
     int half_yRes = _yRes * 0.5;
     int npoints = _pts.size();
 
-    ///
-    /// Uncomment this code if you want to use OpenMP for parallelization
-    ///
-#ifdef _OPENMP
-#pragma omp parallel
-#endif
-    {
-#ifdef _OPENMP
-#pragma omp for schedule(static)
-#endif
-        for (int x = 0; x < _xRes; ++x) {
-            for (int y = 0; y < _yRes; ++y) {
-                float fx = 0.f, fy = 0.f;
-                float wx = x - (half_xRes)*_frequencyStep;
-                float wy = y - (half_yRes)*_frequencyStep;
+    //tbb::tick_count t0 = tbb::tick_count::now();
+    //tbb::task_scheduler_init init(8);
+    tbb::parallel_for(
+                tbb::blocked_range2d<int>(0,_xRes, 16, 0, _yRes, 16),
+                [=](const tbb::blocked_range2d<int>& imgblock ) {
+        for( int row = imgblock.rows().begin(); row != imgblock.rows().end(); ++row ){
+            for( int col = imgblock.cols().begin(); col != imgblock.cols().end(); ++col ) {
+                double fx = 0.f, fy = 0.f;
+                double wx = (col-half_xRes)*_frequencyStep;;
+                double wy = (row-half_yRes)*_frequencyStep;;
+
                 for (int i = 0; i < npoints; ++i) {
-                    float exp = -2*PI * (wx * _pts[i].x + wy * _pts[i].y);
-                    fx += cosf(exp);
-                    fy += sinf(exp);
+                    double exp = -twopi * (wx * _pts[i].x + wy * _pts[i].y);
+                    fx += cos(exp);
+                    fy += sin(exp);
                 }
-                _complexSpectrum[x + y*_xRes].real(fx); ///real part
-                _complexSpectrum[x + y*_xRes].imag(fy);  ///imaginary part
+
+                _complexSpectrum[row*_xRes+col].real(fx); ///real part
+                _complexSpectrum[row*_xRes+col].imag(fy);  ///imaginary part
             }
         }
     }
+    );
+
 }
 
 void FourierAnalyzer::power_fourier_spectrum(){
@@ -157,9 +153,9 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
         for(int trial = 1; trial <= _nTrials; trial++){
 
             _pts.resize(0);
-            _sampler->MTSample(_pts, n);
+            _sampler->Sample(_pts, n);
 
-           //fprintf(stderr, "\r %d / %d : %d", trial, _nTtrials, n);
+           fprintf(stderr, "\r %d / %d : %d", trial, _nTrials, n);
 
             for(int i=0; i<_xRes*_yRes; i++)
                 _powerSpectrum[i] = 0.;
@@ -197,11 +193,11 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
                 paddedzerosN(s1, _nTrials);
                 //##########################################################
                 ss.str(std::string());
-                ss << prefix << _sampler->GetType() << "-n" << n << "-" << s1 << ".exr";
+                ss << "power-" << _sampler->GetType() << "-n" << n << "-" << s1 << ".exr";
                 write_exr_grey(ss.str(), _powerSpectrum, _xRes, _yRes);
 
                 ss.str(std::string());
-                ss << prefix << "-radial-mean-" << _sampler->GetType() << "-n" << n << "-" << s1 << ".txt";
+                ss << "power-radial-mean-" << _sampler->GetType() << "-n" << n << "-" << s1 << ".txt";
                 compute_radial_mean_powerspectrum(ss.str());
             }
         }

@@ -138,10 +138,11 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
        double mean = 0.0, variance = 0.0;
        for (int trial=1; trial <= _nTrials; trial++)
        {
-           //fprintf(stderr, "\r %d / %d : %d", trial, _nTtrials, n);
+           ///Uncomment this line to monitor the progress
+           //fprintf(stderr, "\r %d / %d : %d", trial, _nTrials, n);
 
            _pts.resize(0);
-           _sampler->MTSample(_pts, n) ;
+           _sampler->Sample(_pts, n) ;
            _sampler->homogenize_samples(_pts);
 
            vector<double> res;

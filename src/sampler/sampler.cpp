@@ -34,16 +34,6 @@ SamplerPrototype::SamplerPrototype()
 {
     vector<Sampler*> vs ;
     vs.push_back(new randomSampler());
-//        vs.push_back(new gridSampler());
-//        vs.push_back(new jitteredSampler());
-//        vs.push_back(new gjSampler());
-//        vs.push_back(new bjSampler());
-//        vs.push_back(new latinhypercubeSampler());
-//        vs.push_back(new haltonSampler());
-//        vs.push_back(new sobolSampler());
-//        vs.push_back(new zerotwosequenceSampler());
-//        // vs.push_back(new MyNewSampler()); // add a line like this
-
     vs.push_back(new gridSampler());
     vs.push_back(new jitteredSampler());
     vs.push_back(new gjSampler());
@@ -73,13 +63,6 @@ ostream& operator << (ostream& os, Sampler& s)
 {
     for (int i(0); i< s.p.size(); i++)
     os << s.p[i].x << " " << s.p[i].y << endl ;
-}
-
-
-vector<Point2d>& Sampler::Sample(int n)
-{
-    MTSample(p, n) ;
-    return p;
 }
 
 Sampler::~Sampler()
@@ -172,7 +155,7 @@ randomSampler::randomSampler(const vector<string>& SamplerParams)
     SamplingType = "random" ;
 }
 
-void randomSampler::MTSample(vector<Point2d>& pts, int n) const
+void randomSampler::Sample(vector<Point2d>& pts, int n) const
 {
     pts.resize(n) ;
     double maxRange = bBoxMax - bBoxMin;
@@ -183,7 +166,7 @@ void randomSampler::MTSample(vector<Point2d>& pts, int n) const
         ///
         /// \brief Thread safe version of random number generator
         ///
-        static thread_local std::mt19937 generator(rd());
+        static std::mt19937 generator(rd());
         std::uniform_real_distribution<double> distribution(0,1);
         double tx = distribution(generator);
         double ty = distribution(generator);
@@ -211,7 +194,7 @@ jitteredSampler::jitteredSampler(const vector<string>& SamplerParams)
     SamplingType = "stratified" ;
 }
 
-void jitteredSampler::MTSample(vector<Point2d> &pts, int n) const
+void jitteredSampler::Sample(vector<Point2d> &pts, int n) const
 {
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
@@ -227,7 +210,7 @@ void jitteredSampler::MTSample(vector<Point2d> &pts, int n) const
             ///
             /// \brief Thread safe version of random number generator
             ///
-            static thread_local std::mt19937 generator(rd());
+            static std::mt19937 generator(rd());
             std::uniform_real_distribution<double> distribution(0,1);
             double tx = distribution(generator);
             double ty = distribution(generator);
@@ -260,7 +243,7 @@ gridSampler::gridSampler(const vector<string>& SamplerParams)
     SamplingType = "Grid" ;
 }
 
-void gridSampler::MTSample(vector<Point2d>& pts, int n) const
+void gridSampler::Sample(vector<Point2d>& pts, int n) const
 {
     int sqrtN (ceil(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
@@ -299,7 +282,7 @@ void gjSampler::ParseParameters(const vector<string>& SamplerParams)
     _sigma  = CLParser::FindArgument<double>(SamplerParams, SigStr) ;
 }
 
-void gjSampler::MTSample(vector<Point2d>& pts, int n) const
+void gjSampler::Sample(vector<Point2d>& pts, int n) const
 {
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
@@ -314,7 +297,7 @@ void gjSampler::MTSample(vector<Point2d>& pts, int n) const
         ///
         /// \brief Thread safe version of random number generator
         ///
-        static thread_local std::mt19937 generator(rd());
+        static std::mt19937 generator(rd());
         std::normal_distribution<double> distribution(0,1);
         double tx = distribution(generator);
         double ty = distribution(generator);
@@ -346,7 +329,7 @@ void bjSampler::ParseParameters(const vector<string>& SamplerParams)
     _boxWidth = CLParser::FindArgument<double>(SamplerParams, BWStr) ;
 }
 
-void bjSampler::MTSample(vector<Point2d>& pts, int n) const
+void bjSampler::Sample(vector<Point2d>& pts, int n) const
 {
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
@@ -361,7 +344,7 @@ void bjSampler::MTSample(vector<Point2d>& pts, int n) const
         ///
         /// \brief Thread safe version of random number generator
         ///
-        static thread_local std::mt19937 generator(rd()  );
+        static std::mt19937 generator(rd()  );
         std::uniform_real_distribution<double> distribution(0,1);
         double tx = distribution(generator);
         double ty = distribution(generator);

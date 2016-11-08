@@ -143,21 +143,18 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
         _MSE[i]=0 ;
     }
 
-//	#pragma omp parallel for
     for (int i=0; i<_nSamples.size(); i++)
     {
         const int n(_nSamples[i]) ;
         vector<double> ms(_nTrials,0) ;
 
-        std::stringstream progress;
         for (int r=0; r<_nTrials; r++)
         {
-            //progress << "\r trials: " << r << "/" << _nTrials << " N: " << n;
-            //std::cerr << progress.str();
-            //progress.clear();
+            ///Uncomment this line to monitor the progress
+            //fprintf(stderr, "\r %d / %d : %d", trial, _nTrials, n);
 
             vector<Point2d> S;
-            _sampler->MTSample(S, n) ;
+            _sampler->Sample(S, n) ;
 
             vector<double> res ;
             _integrand->MultipointEval(res, S) ;
