@@ -35,10 +35,13 @@ using namespace eea;
 class IO{
 public:
     static void WriteEPS(std::string &filename, const std::vector<Point2d>& pts, double radius=2.0, double scale=512.0);
+<<<<<<< HEAD
     static int WriteEXRrgba(const std::string& filename, const float* rgb, int width, int height);
     static int WriteEXRrgb(const std::string& filename, const float* rgb, int width, int height);
     static int WriteEXRgrey(const std::string &filename, const float *rgb, int width, int height);
     static bool LoadEXRrgba(const char* filename, float** rgba, int *w, int *h);
+=======
+>>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
 };
 
 

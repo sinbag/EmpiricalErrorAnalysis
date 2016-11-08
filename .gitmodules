@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 [submodule "ext/tinyexr"]
 	path = ext/tinyexr
 	url = https://github.com/syoyo/tinyexr
+=======
+[submodule "ext/openexr"]
+	path = ext/openexr
+	url = https://github.com/wjakob/openexr
+>>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb

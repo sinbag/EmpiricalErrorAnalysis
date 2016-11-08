@@ -1,0 +1,43 @@
+MakeNamedMedium "vol" "string type" "homogeneous"
+	"color sigma_a" [.02 .02 .02 ]	"color sigma_s" [.35 .35 .35]
+
+Film "image"
+ "integer xresolution" [400] "integer yresolution" [400]
+
+Integrator "mlt" "integer mutationsperpixel" 64
+
+MediumInterface "" "vol"
+LookAt -.75 .8 -1.25    -1 .8 0   0 1 0
+Camera "perspective" "float fov" [95]
+
+WorldBegin
+
+MediumInterface "" "vol"
+
+AttributeBegin
+MediumInterface "vol" ""
+Material ""
+Shape "sphere" "float radius" 2
+AttributeEnd
+
+AttributeBegin
+Rotate -60 0 0 1
+LightSource "infinite" "string mapname" "skylight-day.exr"
+  "color scale" [1.5 1.5 1.4]
+AttributeEnd
+
+LightSource "spot" "point from" [-3 6 -2 ] "point to" [-1 1 0]
+	"color I" [2500 2500 2500 ] "float coneangle" [6.35]
+
+AttributeBegin
+Translate -1 1 0
+Material "glass" 
+Shape "sphere" "float radius" [.5]
+AttributeEnd
+
+Material "matte" "color Kd" [.2 .2 .2 ]
+Translate 0 -.1 0
+Shape "trianglemesh" "integer indices" [0 1 2 2 3 0]
+	"point P" [ -15 0 -15  15 0 -15  15 0 15  -15 0 15]
+
+WorldEnd

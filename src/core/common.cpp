@@ -29,6 +29,7 @@ void IO::WriteEPS(std::string& filename, const std::vector<Point2d>& pts, double
     os << "grestore\n";
     os.close();
 }
+<<<<<<< HEAD
 
 //// TinyEXR includes
 #define TINYEXR_IMPLEMENTATION
@@ -227,3 +228,5 @@ bool IO::LoadEXRrgba(const char* filename, float** rgba, int *w, int *h){
     return true;
 }
 
+=======
+>>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb

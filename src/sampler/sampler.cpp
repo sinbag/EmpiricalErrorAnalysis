@@ -8,6 +8,7 @@
 #include <thread>
 #include <iostream>
 
+<<<<<<< HEAD
 #if HAS_CXX11_THREAD_LOCAL
     #define ATTRIBUTE_TLS thread_local
 #elif defined (__GNUC__)
@@ -17,6 +18,16 @@
 #else // !C++11 && !__GNUC__ && !_MSC_VER
     #error "Define a thread local storage qualifier for your compiler/platform!"
 #endif
+=======
+#if defined(_OPENMP)
+#ifdef __APPLE__
+#include <libiomp/omp.h>
+#else
+#include <omp.h>
+#endif
+#endif
+
+>>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
 
 using std::cout ;
 using std::stringstream ;
@@ -36,6 +47,7 @@ SamplerPrototype::SamplerPrototype()
 {
     vector<Sampler*> vs ;
     vs.push_back(new randomSampler());
+<<<<<<< HEAD
         vs.push_back(new gridSampler());
         vs.push_back(new jitteredSampler());
         vs.push_back(new gjSampler());
@@ -45,6 +57,13 @@ SamplerPrototype::SamplerPrototype()
         vs.push_back(new sobolSampler());
         vs.push_back(new zerotwosequenceSampler());
         // vs.push_back(new MyNewSampler()); // add a line like this
+=======
+    vs.push_back(new gridSampler());
+    vs.push_back(new jitteredSampler());
+    vs.push_back(new gjSampler());
+    vs.push_back(new bjSampler());
+    // vs.push_back(new MyNewSampler()); // add a line like this
+>>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
 
     for (int i(0); i<vs.size(); i++)
     exemplars[vs[i]->GetType()] = vs[i] ;
@@ -172,11 +191,17 @@ void randomSampler::MTSample(vector<Point2d>& pts, int n) const
 {
     pts.resize(n) ;
     double maxRange = bBoxMax - bBoxMin;
+<<<<<<< HEAD
+=======
+    std::random_device rd;
+
+>>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
     for (int i=0; i<n; i++)
     {
         ///
         /// \brief Thread safe version of random number generator
         ///
+<<<<<<< HEAD
 //        static thread_local std::mt19937 generatorX;
 //        std::uniform_real_distribution<double> distribution(0,1);
 //        double x = distribution(generatorX);
@@ -190,6 +215,19 @@ void randomSampler::MTSample(vector<Point2d>& pts, int n) const
         y = (maxRange * y) + bBoxMin;
 
         pts[i] = Point2d(x,y);
+=======
+        static thread_local std::mt19937 generator(rd());
+        std::uniform_real_distribution<double> distribution(0,1);
+        double tx = distribution(generator);
+        double ty = distribution(generator);
+        ///
+        /// Change the range of (x,y) from [0,1) to [bBoxMin, bBoxMax)
+        ///
+        double px = (maxRange * tx) + bBoxMin;
+        double py = (maxRange * ty) + bBoxMin;
+
+        pts[i] = Point2d(px,py);
+>>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
     }
 }
 
@@ -215,12 +253,30 @@ void jitteredSampler::MTSample(vector<Point2d> &pts, int n) const
     pts.resize(n) ;
 
     double maxRange = bBoxMax - bBoxMin;
+<<<<<<< HEAD
 
     #pragma omp parallel for
     for (int r=0; r<sqrtN; r++){
         for (int c=0; c<sqrtN; c++){
             double x = (c + drand48()) * dX;
             double y = (r + drand48()) * dY;
+=======
+    std::random_device rd;
+
+#pragma omp parallel for
+    for (int r=0; r<sqrtN; r++){
+        for (int c=0; c<sqrtN; c++){
+            ///
+            /// \brief Thread safe version of random number generator
+            ///
+            static thread_local std::mt19937 generator(rd());
+            std::uniform_real_distribution<double> distribution(0,1);
+            double tx = distribution(generator);
+            double ty = distribution(generator);
+
+            double x = (c + tx) * dX;
+            double y = (r + ty) * dY;
+>>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
 
             ///
             /// Change the range of (x,y) from [0,1) to [bBoxMin, bBoxMax)
@@ -291,15 +347,33 @@ void gjSampler::MTSample(vector<Point2d>& pts, int n) const
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
     pts.resize(n) ;
+<<<<<<< HEAD
     std::normal_distribution<double> ND(0,1);
 
+=======
+
+    std::random_device rd;
+>>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
     #pragma omp parallel for
     for (int i=0; i<sqrtN; i++)
     {
     for (int j=0; j<sqrtN; j++)
     {
+<<<<<<< HEAD
         const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
         const double r1(ND(RGen)*dX*.5), r2(ND(RGen)*dX*.5);
+=======
+        ///
+        /// \brief Thread safe version of random number generator
+        ///
+        static thread_local std::mt19937 generator(rd());
+        std::normal_distribution<double> distribution(0,1);
+        double tx = distribution(generator);
+        double ty = distribution(generator);
+
+        const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
+        const double r1(tx*dX*.5), r2(ty*dX*.5);
+>>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
         pts[i*sqrtN+j] = Point2d(x+(r1),y+(r2), true);
     }
     }
@@ -330,20 +404,38 @@ void bjSampler::MTSample(vector<Point2d>& pts, int n) const
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
     pts.resize(n) ;
+<<<<<<< HEAD
+=======
+    std::random_device rd;
+>>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
 
     #pragma omp parallel for
     for (int i=0; i<sqrtN; i++)
     {
     for (int j=0; j<sqrtN; j++)
     {
+<<<<<<< HEAD
         const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
         const double r1(-.5+drand48()), r2(-.5+drand48());
+=======
+        ///
+        /// \brief Thread safe version of random number generator
+        ///
+        static thread_local std::mt19937 generator(rd()  );
+        std::uniform_real_distribution<double> distribution(0,1);
+        double tx = distribution(generator);
+        double ty = distribution(generator);
+
+        const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
+        const double r1(-.5+tx), r2(-.5+ty);
+>>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
         pts[i*sqrtN+j] = Point2d(x+(r1)*_boxWidth*dX,y+(r2)*_boxWidth*dY, true);
     }
     }
 }
 
 
+<<<<<<< HEAD
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 				LatinHyperCube
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -424,6 +516,9 @@ void zerotwosequenceSampler::MTSample(vector<Point2d>& pts, int n) const
     for (int i=0; i<n; i++)
         pts.push_back(Point2d(0.,0.));
 }
+=======
+
+>>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
 
 
 
