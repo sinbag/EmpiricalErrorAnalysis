@@ -3,10 +3,6 @@
 #include <common.h>
 #include <fstream>
 #include <iomanip>
-<<<<<<< HEAD
-
-#define USE_TBB
-=======
 #include <write-exr.h>
 
 #if defined(_OPENMP)
@@ -17,7 +13,6 @@
 #endif
 #endif
 
->>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
 ///
 /// \brief FourierAnalyzer::trialStepStr
 ///
@@ -203,11 +198,7 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
                 //##########################################################
                 ss.str(std::string());
                 ss << prefix << _sampler->GetType() << "-n" << n << "-" << s1 << ".exr";
-<<<<<<< HEAD
-                IO::WriteEXRgrey(ss.str(), _powerSpectrum, _xRes, _yRes);
-=======
                 write_exr_grey(ss.str(), _powerSpectrum, _xRes, _yRes);
->>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
 
                 ss.str(std::string());
                 ss << prefix << "-radial-mean-" << _sampler->GetType() << "-n" << n << "-" << s1 << ".txt";

@@ -47,10 +47,6 @@ public:
     virtual void MTSample(vector<Point2d>& pts, int n) const = 0;   // thread-safe version
     virtual string GetType() const {return SamplingType; }
     virtual vector<Point2d>& GetPoints() {return p;}
-<<<<<<< HEAD
-=======
-
->>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
     virtual ~Sampler();
 
     Sampler(){bBoxMin = 0; bBoxMax = 1;}
@@ -79,10 +75,6 @@ class randomSampler: public Sampler
     virtual ~randomSampler() {}
 
     private:
-<<<<<<< HEAD
-=======
-
->>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
     randomSampler() {SamplingType = "Random" ;}
     randomSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
@@ -116,10 +108,6 @@ class gridSampler: public Sampler
     virtual ~gridSampler() {}
 
     private:
-<<<<<<< HEAD
-=======
-
->>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
     gridSampler() {SamplingType = "Grid" ;}
     gridSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
@@ -137,10 +125,6 @@ class gjSampler: public Sampler
     virtual ~gjSampler() {}
 
     private:
-<<<<<<< HEAD
-=======
-
->>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
     gjSampler(): _sigma(0.5) {SamplingType = "GJittered" ;}
     gjSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
@@ -163,10 +147,6 @@ class bjSampler: public Sampler
     virtual ~bjSampler() {}
 
     private:
-<<<<<<< HEAD
-=======
-
->>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
     bjSampler(): _boxWidth(0.5) {SamplingType = "BJittered" ;}
     bjSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
@@ -189,14 +169,9 @@ class pdSampler: public Sampler
     virtual ~pdSampler() {}
 
     private:
-<<<<<<< HEAD
-    pdSampler() {SamplingType = "PDisk" ;}
-    pdSampler(const vector<string>& SamplerParams) {} ;
-=======
 
     pdSampler() {SamplingType = "PDisk" ;}
     pdSampler(const vector<string>& SamplerParams) {}
->>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
     friend class SamplerPrototype;
 };
 
@@ -213,11 +188,7 @@ public:
 
 private:
     latinhypercubeSampler() {SamplingType = "LatinHypercube" ;}
-<<<<<<< HEAD
-    latinhypercubeSampler(const vector<string>& SamplerParams);
-=======
     latinhypercubeSampler(const vector<string>& SamplerParams) {}
->>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
     friend class SamplerPrototype;
 };
 
@@ -234,11 +205,7 @@ public:
 
 private:
     haltonSampler() {SamplingType = "Halton" ;}
-<<<<<<< HEAD
-    haltonSampler(const vector<string>& SamplerParams) ;
-=======
     haltonSampler(const vector<string>& SamplerParams) {}
->>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
     friend class SamplerPrototype;
 };
 
@@ -255,11 +222,7 @@ public:
 
 private:
     sobolSampler() {SamplingType = "Sobol" ;}
-<<<<<<< HEAD
-    sobolSampler(const vector<string>& SamplerParams) ;
-=======
     sobolSampler(const vector<string>& SamplerParams) {}
->>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
     friend class SamplerPrototype;
 };
 
@@ -274,21 +237,10 @@ public:
     virtual void MTSample(vector<Point2d>& pts, int n) const ;
     virtual ~zerotwosequenceSampler() {}
 
-<<<<<<< HEAD
-private:
-    zerotwosequenceSampler() {SamplingType = "02sequence" ;}
-    zerotwosequenceSampler(const vector<string>& SamplerParams) ;
-    friend class SamplerPrototype;
-};
-
-
-=======
-
 private:
     zerotwosequenceSampler() {SamplingType = "02sequence" ;}
     zerotwosequenceSampler(const vector<string>& SamplerParams) {}
     friend class SamplerPrototype;
 };
 
->>>>>>> ef97f5bea24b64a17cb0751ce4798e13ff2573bb
 #endif // SAMPLER_H

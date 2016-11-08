@@ -40,7 +40,7 @@ bool read_exr_grey(std::string name, float *&grey, int &xRes, int &yRes){
         delete[] hgrey;
     } catch (const std::exception &e) {
         fprintf(stderr, "Unable to read image file \"%s\": %s", name.c_str(), e.what());
-        return NULL;
+        return false;
     }
 
     return grey;
@@ -124,85 +124,10 @@ bool read_exr_rgba(std::string name, float *&rgba, int &xRes, int &yRes, bool ha
         delete[] hrgba;
     } catch (const std::exception &e) {
         fprintf(stderr, "Unable to read image file \"%s\": %s", name.c_str(), e.what());
-        return NULL;
+        return false;
     }
 
     return rgba;
-}
-
-float *readMultiChannelEXR(std::string fileName, int *width, int *height, int *nbins){
-
-    float *data;
-
-    try {
-        InputFile file (fileName.c_str());
-
-        Box2i dw = file.header().dataWindow();
-
-        *width = dw.max.x - dw.min.x + 1;
-        *height = dw.max.y - dw.min.y + 1;
-        int nhnc = (*width) * (*height);
-
-        const ChannelList &channelList = file.header().channels();
-
-        //zPixels.resizeErase (height, width);
-
-        FrameBuffer frameBuffer;
-
-        char ch_name[10];
-        int nbin =0;
-        sprintf(ch_name,"Bin_%04d",nbin);
-        //printf("%s\n",ch_name);
-        const Channel *channelPtr = channelList.findChannel(ch_name);
-
-
-        while(channelPtr)
-        {
-            nbin++;
-            sprintf(ch_name,"Bin_%04d",nbin);
-            // printf("%s\n",ch_name);
-            channelPtr = channelList.findChannel(ch_name);
-        }
-
-
-        //malloc for the whole array
-        data = (float*) malloc(nhnc*nbin*sizeof(float));
-
-
-        for(int i=0;i<nbin;i++)
-        {
-            sprintf(ch_name,"Bin_%04d",i);
-            // printf("%s\n",ch_name);
-
-            frameBuffer.insert(ch_name,
-                               Slice(FLOAT,
-                                     (char*)(&data[i*nhnc]),
-                                     sizeof(float),
-                                     (*width) * sizeof(float)));
-
-        }
-
-
-        file.setFrameBuffer (frameBuffer);
-
-        try {
-            file.readPixels (dw.min.y, dw.max.y);
-
-        }
-        catch (const std::exception &e) {
-            data = NULL;
-        }
-
-
-        *nbins = nbin;
-        return data;
-
-    }
-    catch (const std::exception &e) {
-        printf("Error reading file: %s\n",fileName.c_str());
-        exit(-1);
-    }
-
 }
 
 bool read_exr_rgb2y(const std::string &name, float *&Y, int &width,int &height) {
