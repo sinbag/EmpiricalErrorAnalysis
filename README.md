@@ -4,7 +4,7 @@ This repository contains the variance/error/Fourier analysis code developed as p
 
 > **Fourier analysis of numerical integration in Monte Carlo rendering: Theory and Practice**<br/>
 > Kartic Subr, Gurprit Singh, Wojciech Jarosz<br/>
-> In *ACM Transactions on Graphics (Proceedings of SIGGRAPH 2016)*<br/>
+> In *SIGGRAPH Courses July 2016*<br/>
 > [Project page](https://www.cs.dartmouth.edu/~wjarosz/publications/subr16fourier.html)
 
 If you use this source code in your research, please cite the code using the following entry:
