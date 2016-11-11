@@ -1,22 +1,50 @@
 # Empirical Error Analysis (EEA)
 
-ACM SIGGRAPH Courses 2016
+This repository contains the variance/error/Fourier analysis code developed as part of the SIGGRAPH course
 
-Fourier analysis of numerical integration in Monte Carlo rendering: Theory and Practice, authored by Kartic Subr, Gurprit Singh, Wojciech Jarosz. Avaiable on [ACM](http://dl.acm.org/citation.cfm?id=2927356).
+> **Fourier analysis of numerical integration in Monte Carlo rendering: Theory and Practice**<br/>
+> Kartic Subr, Gurprit Singh, Wojciech Jarosz<br/>
+> In *ACM Transactions on Graphics (Proceedings of SIGGRAPH 2016)*<br/>
+> [Project page](https://www.cs.dartmouth.edu/~wjarosz/publications/subr16fourier.html)
 
+If you use this source code in your research, please cite the code using the following entry:
+
+> @inproceedings{subr16fourier,<br/>
+>    author = {Kartic Subr and Gurprit Singh and Wojciech Jarosz},<br/>
+>    title = {Fourier Analysis of Numerical Integration in Monte Carlo Rendering: Theory and Practice},<br/>
+>    booktitle = {ACM SIGGRAPH Courses},<br/>
+>    year = {2016},<br/>
+>    month = jul,<br/>
+>    publisher = {ACM},<br/>
+>    address = {New York, NY, USA},<br/>
+>    location = {Anaheim, California},<br/>
+>    isbn = {978-1-4503-4289-6},<br/>
+>    doi = {10.1145/2897826.2927356}<br/>
+>}
+
+## Dependencies
 * Source code includes Fourier/variance/mse analyzers for different sampling patterns.
 * Dependencies:
  * CGAL (used for PWConstant and QuadPixel integrands in the interface)
  * OpenMP (can be made optional)
  * Python (only required for PBRTIntegrand, the source code still compiles and run for other integrands without Python)
+ 
+## Compiling
 * Use recursive tag to clone from git to add the Openexr submodule:
 ```
 git clone --recursive https://github.com/sinbag/EmpiricalErrorAnalysis.git
+cd EmpiricalErrorAnalysis
+mkdir build
+cd build
+cmake ..
+make -j4
 ```
 * If you accidentally already cloned the repo without this flag, run the following command to also fetch the OpenEXR dependency:
 ```
 git submodule update --init --recursive
 ```
+
+## Usage
 * The interface supports different types of integrand. You can hit:
 ```
 ./build/eea or ./build/eea -h
@@ -26,8 +54,8 @@ to see the command line usage. Example to call Disk Integrand for variance analy
 ./build/exec -S --stype Jittered -I Disk --rad 0.25 --center 0.5 0.5 -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile testDisk
 ```
 
-Pbrt-v3 Error Analyzer
---------------------- 
+**Pbrt-v3 Error Analyzer**
+
 
 * The interface also allow user to call PBRT-v3 code directly via python script (Make sure you have a cropwindow defined in the .pbrt scene file to select the region you are interested in):
   * To perform Variance analysis for pbrt-v3 generated images, user can directly call pbrt from the provided Analysis code (look for PBRTIntegrand in the code). Make sure you have a cropwindow defined in the .pbrt scene file to select the region you are interested in. Variance is computed in an online fashion without any reference image. To save time use --refnspp 1.
