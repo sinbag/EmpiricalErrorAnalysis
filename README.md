@@ -23,10 +23,9 @@ If you use this source code in your research, please cite the code using the fol
 >}
 
 ## Dependencies
-* Source code includes Fourier/variance/mse analyzers for different sampling patterns.
-* Dependencies:
+* List of dependencies:
  * CGAL (used for PWConstant and QuadPixel integrands in the interface)
- * OpenMP (can be made optional)
+ * TBB (required for Fourier analysis)
  * Python (only required for PBRTIntegrand, the source code still compiles and run for other integrands without Python)
  
 ## Compiling
@@ -53,9 +52,9 @@ to see the command line usage. Example to call Disk Integrand for variance analy
 ```
 ./build/exec -S --stype Jittered -I Disk --rad 0.25 --center 0.5 0.5 -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile testDisk
 ```
+* Detailed description of all the parameters is added in the recent version of the course notes provided on the [project page](https://www.cs.dartmouth.edu/~wjarosz/publications/subr16fourier.html). 
 
 **Pbrt-v3 Error Analyzer**
-
 
 * The interface also allow user to call PBRT-v3 code directly via python script (Make sure you have a cropwindow defined in the .pbrt scene file to select the region you are interested in):
   * To perform Variance analysis for pbrt-v3 generated images, user can directly call pbrt from the provided Analysis code (look for PBRTIntegrand in the code). Make sure you have a cropwindow defined in the .pbrt scene file to select the region you are interested in. Variance is computed in an online fashion without any reference image. To save time use --refnspp 1.
