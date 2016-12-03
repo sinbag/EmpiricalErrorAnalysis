@@ -2,6 +2,3 @@
 [submodule "ext/openexr"]
 	path = ext/openexr
 	url = https://github.com/wjakob/openexr
-[submodule "ext/tbb"]
-	path = ext/tbb
-	url = https://github.com/wjakob/tbb
