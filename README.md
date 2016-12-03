@@ -24,7 +24,8 @@ If you use this source code in your research, please cite the code using the fol
 
 ## Dependencies
 * List of dependencies:
- * CGAL (used for PWConstant and QuadPixel integrands in the interface)
+ * CGAL (only [Main library](http://doc.cgal.org/latest/Manual/installation.html#seclibraries) required with basic functionalities) used for PWConstant and QuadPixel integrands. [Install CGAL](http://www.cgal.org/download.html) prior to `cmake..`. 
+ * GMP (While installing CGAL, GMP gets installed as a dependency)
  * TBB (required for Fourier analysis)
  * Python (only required for PBRTIntegrand, the source code still compiles and run for other integrands without Python)
  
@@ -57,7 +58,7 @@ to see the command line usage. Example to call Disk Integrand for variance analy
 **Pbrt-v3 Error Analyzer**
 
 * The interface also allow user to call PBRT-v3 code directly via python script (Make sure you have a cropwindow defined in the .pbrt scene file to select the region you are interested in):
-  * To perform Variance analysis for pbrt-v3 generated images, user can directly call pbrt from the provided Analysis code (look for PBRTIntegrand in the code). Make sure you have a cropwindow defined in the .pbrt scene file to select the region you are interested in. Variance is computed in an online fashion without any reference image. To save time use --refnspp 1.
+  * To perform Variance analysis for pbrt-v3 generated images, user can directly call pbrt from the provided Analysis code (look for PBRTIntegrand in the code). Make sure you have a cropwindow defined in the .pbrt scene file to select the region you are interested in. Variance is computed in an online fashion without any reference image. To save time use `--refnspp 1`.
  Example to call PBRTIntegrand (all in one line):
 ```
 ./build/eea -S --stype Random 
@@ -95,7 +96,7 @@ int seed = tile.y * nTiles.x + tile.x + randomseed;
 ...
  ```
  
-* MSE analyzer works the same as variance analyzer but you need a reference value. For pbrt-v3, you need to compute the reference image (ReferenceSampler used Halton) with huge number of samples per pixel (--refnspp 1000). 
+* MSE analyzer works the same as variance analyzer but you need a reference value. For pbrt-v3, you need to compute the reference image (ReferenceSampler used Halton) with huge number of samples per pixel (`--refnspp 1000`). 
 Example to call PBRTIntegrand (all in one line):
 ```
 ./build/eea -S --stype Random 
