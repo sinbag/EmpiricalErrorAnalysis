@@ -17,6 +17,7 @@ else()
 endif()
 
 find_package(TBB REQUIRED)
+find_package(GMP REQUIRED)
 
 SET(ILMBASE_NAMESPACE_VERSIONING OFF CACHE BOOL " " FORCE)
 SET(OPENEXR_NAMESPACE_VERSIONING OFF CACHE BOOL " " FORCE)
@@ -37,6 +38,7 @@ SET(OPENEXR_LIBS IlmImf Imath Half)
 
 include_directories(
 ${TBB_INCLUDE_DIRS}
+${GMP_INCLUDE_DIR}
 ext
 src/core
 src/analyzer
@@ -61,6 +63,6 @@ src/sampler/*.h
 
 add_executable(eea ${SOURCE} ${HEADERS})
 
-TARGET_LINK_LIBRARIES(eea blas gmp ${OPENEXR_LIBS} ${TBB_LIBRARIES})
+TARGET_LINK_LIBRARIES(eea blas ${GMP_LIBRARIES} ${OPENEXR_LIBS} ${TBB_LIBRARIES})
 
 install(TARGETS eea RUNTIME DESTINATION bin)
