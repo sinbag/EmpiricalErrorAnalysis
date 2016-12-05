@@ -39,7 +39,7 @@ cd build
 cmake ..
 make -j4
 ```
-* If you accidentally already cloned the repo without this flag, run the following command to also fetch the OpenEXR dependency:
+* If you accidentally already cloned the repo without the recursive tag, run the following command to also fetch the OpenEXR dependency:
 ```
 git submodule update --init --recursive
 ```
