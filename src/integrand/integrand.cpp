@@ -88,7 +88,6 @@ void Integrand::MultipointEval (vector<double>& out, const vector<Point2d>& vp) 
         const  int n (vp.size());
         out.resize(n) ;
 
-//#pragma omp parallel for
         for(int i=0; i<n; i++)
             out[i] = (*this)(vp[i]) ;
     }

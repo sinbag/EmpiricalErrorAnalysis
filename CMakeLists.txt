@@ -5,6 +5,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules/")
 
 project(eea)
 
+set(TBB_ENABLED 1)
+
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
@@ -16,7 +18,11 @@ else()
         message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
 endif()
 
-find_package(TBB REQUIRED)
+if(TBB_ENABLED)
+    find_package(TBB REQUIRED)
+    add_definitions(-DTBB_ENABLED)
+endif(TBB_ENABLED)
+
 find_package(GMP REQUIRED)
 find_package(CGAL QUIET REQUIRED)
 set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS TRUE CACHE BOOL "CGAL's CMAKE Setup is super annoying ")
@@ -39,7 +45,11 @@ INCLUDE_DIRECTORIES (
 SET(OPENEXR_LIBS IlmImf Imath Half)
 
 include_directories(
-${TBB_INCLUDE_DIRS}
+
+if(TBB_ENABLED)
+    ${TBB_INCLUDE_DIRS}
+endif(TBB_ENABLED)
+
 ${GMP_INCLUDE_DIR}
 ext
 src/core
@@ -65,6 +75,10 @@ src/sampler/*.h
 
 add_executable(eea ${SOURCE} ${HEADERS})
 
-TARGET_LINK_LIBRARIES(eea blas ${GMP_LIBRARIES} ${OPENEXR_LIBS} ${TBB_LIBRARIES})
+if(TBB_ENABLED)
+    TARGET_LINK_LIBRARIES(eea blas ${GMP_LIBRARIES} ${OPENEXR_LIBS} ${TBB_LIBRARIES})
+else()
+    TARGET_LINK_LIBRARIES(eea blas ${GMP_LIBRARIES} ${OPENEXR_LIBS})
+endif(TBB_ENABLED)
 
 install(TARGETS eea RUNTIME DESTINATION bin)

@@ -9,7 +9,6 @@
 #include <GaussianIntegrand.h>
 #include <cmdlnparser.h>
 #include <iostream>
-//#include <boost/math/special_functions/erf.hpp>
 
 const string GaussianIntegrand::SigmaStr = "--sigma" ;
 const string GaussianIntegrand::CenterStr = "--center" ;
@@ -49,8 +48,6 @@ GaussianIntegrand::GaussianIntegrand(const vector<string>& IntegParams)
     double sqrt2sigmay = sqrt(2.0)*_ysigma;
     double I1 = (std::erf((1-mux)/sqrt2sigmax) + std::erf(mux / sqrt2sigmax));
     double I2 = (-std::erf((-1+muy)/sqrt2sigmay) + std::erf(muy / sqrt2sigmay));
-    //double I1 = (boost::math::erf((1-mux)/sqrt2sigmax) + boost::math::erf(mux / sqrt2sigmax));
-    //double I2 = (-boost::math::erf((-1+muy)/sqrt2sigmay) + boost::math::erf(muy / sqrt2sigmay));
 
     RefVal = 0.25 * I1 * I2;
 }

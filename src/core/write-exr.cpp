@@ -43,10 +43,6 @@ void write_exr_rgb(std::string name, const T* pixels, int xRes, int yRes){
 
     Rgba *hrgba = new Rgba[xRes * yRes]();
 
-    //Problem: causes vertical flip of the data (image)
-    //for (int i = 0; i < xRes * yRes; ++i)
-    //hrgba[i] = Rgba(pixels[4*i], pixels[4*i+1], pixels[4*i+2], 1.);
-
     for(int r = 0; r < yRes; r++)
         for(int c = 0; c < xRes; c++)
             hrgba[r*xRes+c] = Rgba(pixels[3*(r*xRes+c)+0], pixels[3*(r*xRes+c)+1], pixels[3*(r*xRes+c)+2], 1);
@@ -76,10 +72,6 @@ template <typename T>
 void write_exr_rgba(std::string name, const T* pixels, int xRes, int yRes){
 
     Rgba *hrgba = new Rgba[xRes * yRes]();
-
-    //Problem: causes vertical flip of the data (image)
-    //for (int i = 0; i < xRes * yRes; ++i)
-    //hrgba[i] = Rgba(pixels[4*i], pixels[4*i+1], pixels[4*i+2], 1.);
 
     for(int r = 0; r < yRes; r++)
         for(int c = 0; c < xRes; c++)
