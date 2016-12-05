@@ -140,8 +140,6 @@ double PBRTIntegrand::computePBRTIntegral(std::string imageName, int NSPP, std::
 double PBRTIntegrand::operator () (const Point2d& p) const
 {
     /// For PBRTIntegrand the p argument contains the number of samples information
-    //    int N = _nspp;
-
     double integral = computePBRTIntegral(_imageName, p.x, _pbrtSampler);
     return integral;
 }

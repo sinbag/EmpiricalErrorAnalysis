@@ -14,7 +14,7 @@ using namespace Imath;
 
 #include "read-image.h"
 
-//Adopted from PBRT2-src code
+//Adapted from PBRT2-src code
 bool read_exr_grey(std::string name, float *&grey, int &xRes, int &yRes){
     try {
         InputFile file(name.c_str());
@@ -76,7 +76,7 @@ bool read_exr_rgb(const std::string &name, float *&rgba, int &width,
 }
 
 
-//Adopted from PBRT2-src code
+//Adapted from PBRT2-src code
 bool read_exr_rgba(std::string name, float *&rgba, int &xRes, int &yRes, bool hasAlpha){
     try {
         InputFile file(name.c_str());
@@ -103,16 +103,6 @@ bool read_exr_rgba(std::string name, float *&rgba, int &xRes, int &yRes, bool ha
             frameBuffer.insert("A", Slice(HALF, (char *)hrgba+3*sizeof(half),
                                       nChannels*sizeof(half), xRes * nChannels * sizeof(half), 1, 1, 1.0));
         }
-//        frameBuffer.insert("R", Slice(HALF, (char *)hrgba,
-//                                      4*sizeof(half), xRes * 4 * sizeof(half), 1, 1, 0.0));
-//        frameBuffer.insert("G", Slice(HALF, (char *)hrgba+sizeof(half),
-//                                      4*sizeof(half), xRes * 4 * sizeof(half), 1, 1, 0.0));
-//        frameBuffer.insert("B", Slice(HALF, (char *)hrgba+2*sizeof(half),
-//                                      4*sizeof(half), xRes * 4 * sizeof(half), 1, 1, 0.0));
-//        if(hasAlpha){
-//            frameBuffer.insert("A", Slice(HALF, (char *)hrgba+3*sizeof(half),
-//                                      4*sizeof(half), xRes * 4 * sizeof(half), 1, 1, 1.0));
-//        }
 
         file.setFrameBuffer(frameBuffer);
         file.readPixels(dw.min.y, dw.max.y);
@@ -147,13 +137,7 @@ bool read_exr_rgb2y(const std::string &name, float *&Y, int &width,int &height) 
 
         Y = new float[width* height]();
         for (int i = 0; i < width * height; ++i) {
-            //rgba[3*i+0] = pixels[i].r;
-            //rgba[3*i+1] = pixels[i].g;
-            //rgba[3*i+2] = pixels[i].b;
-
             Y[i] = 0.299   *pixels[i].r		+ 0.587  *pixels[i].g		+ 0.114  *pixels[i].b;
-            //rgba[3*i+1] = -0.14713*pixels[i].r	    - 0.28886*pixels[i].g	    + 0.436  *pixels[i].b;
-            //rgba[3*i+2] = 0.615   *pixels[i].r		- 0.51499*pixels[i].g	    - 0.10001*pixels[i].b;
         }
 
         return true;

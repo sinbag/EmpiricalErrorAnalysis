@@ -17,7 +17,7 @@ private:
 
     Integrand* _integrand;
 
-    vector<double> _avgM, _avgV, _MSE ;
+    vector<double> _avgM, _MSE ;
 
     double _convRate, _YIntError ;
 

@@ -44,8 +44,6 @@ FourierAnalyzer::FourierAnalyzer(Sampler* s, const vector<string>& AnalyzerParam
     _yRes = 512;
     _powerSpectrum = new float[_xRes * _yRes]();
     _complexSpectrum = new std::complex<float>[_xRes*_yRes]();
-
-    //    std::cerr << _nSamples << " " << _shear << " "<< _nTrials<< std::endl;
 }
 
 void FourierAnalyzer::continuous_fourier_spectrum(){
@@ -54,7 +52,8 @@ void FourierAnalyzer::continuous_fourier_spectrum(){
     int half_yRes = _yRes * 0.5;
     int npoints = _pts.size();
 
-    //tbb::tick_count t0 = tbb::tick_count::now();
+    /// To limit the number of threads uncomment the line below and
+    /// use the number of threads you want to devote here.
     //tbb::task_scheduler_init init(8);
     tbb::parallel_for(
                 tbb::blocked_range2d<int>(0,_xRes, 16, 0, _yRes, 16),

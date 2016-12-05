@@ -20,7 +20,6 @@ namespace
         {
             string stemp ;
             ss >> stemp ;
-// 			cout << stemp << endl ;
             outvec.push_back(stemp) ;
         }
     }

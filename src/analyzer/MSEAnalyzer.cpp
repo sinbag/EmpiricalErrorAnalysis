@@ -56,11 +56,6 @@ MSEAnalyzer::MSEAnalyzer(Sampler* s, Integrand *I, const vector<string>& Analyze
     _sampler = s;
     CLParser::FindMultiArgs<int>(-1, _nSamples, AnalyzerParams, NSampStr) ;
     _nTrials = CLParser::FindArgument<int>(AnalyzerParams, nTrialsStr) ;
-
-    // create integrand object from the -I section of command line
-    // implemented as a virtual constructor
-    // treat this as a call to the new operator, and delete the object integrand responsibly
-    //_integrand = (IntegrandPrototype::Generate(IntegString)) ;
 }
 
 namespace // some functions to compute simple statistics of vector<double>
@@ -117,13 +112,11 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
     std::stringstream ss;
 
     ss.str(std::string());
-//     ss << prefix << "-mean-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
-    ss << prefix << "-mean.txt";
+    ss << prefix << "-mean-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
     std::ofstream ofsmean(ss.str().c_str(), std::ofstream::app) ;
 
     ss.str(std::string());
-//     ss << prefix << "-mse-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
-    ss << prefix << "-mse.txt";
+    ss << prefix << "-mse-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
     std::ofstream ofsmse(ss.str().c_str(), std::ofstream::app) ;
 
     ofsmean << std::fixed << std::setprecision(15);
@@ -133,13 +126,11 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
     const double Iref (_integrand->ReferenceValue()) ;
 
     _avgM.resize(_nSamples.size()) ;
-//    _avgV.resize(_nSamples.size()) ;
     _MSE.resize(_nSamples.size()) ;
 
     for (int i=0; i<_nSamples.size(); i++)
     {
         _avgM[i]=0;
-        //_avgV[i]=0;
         _MSE[i]=0 ;
     }
 
@@ -163,7 +154,6 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
             _avgM[i] += m ;
             _MSE[i] += (Iref-m)*(Iref-m) ;
         }
-        //_avgV[i] = Var(ms) ;
         _avgM[i] /= float(_nTrials) ;
         _MSE[i] /= float(_nTrials) ;
 

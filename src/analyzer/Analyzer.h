@@ -22,7 +22,6 @@ class AnalyzerPrototype{
 public:
     AnalyzerPrototype() ;
 
-    //static Analyzer* Generate(Sampler *s, const vector<string>& AnalyzerString, const vector<string>& IntegString) ;
     static Analyzer* Generate(Sampler *s, Integrand* I, const vector<string>& AnalyzerString) ;
 
 private:
@@ -36,7 +35,6 @@ private:
 class Analyzer{
 public:
     virtual void RunAnalysis(string& prefix) = 0;
-    //virtual void WriteFile(string& filename) const = 0;
     virtual Analyzer* createAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerString) = 0 ;
     virtual string GetType() const {return AnalyzerType; }
     void create_folders(std::string homedir, std::string &data, std::string &images, std::string &graphs);

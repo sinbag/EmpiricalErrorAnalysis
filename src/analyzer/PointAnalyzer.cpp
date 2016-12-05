@@ -39,10 +39,14 @@ void PointAnalyzer::RunAnalysis(string &prefix){
             const int n(_nSamples[j]) ;
             _sampler->Sample(_pts, n);
 
+            /// Homogenize sampling patterns
+            //_sampler->homogenize_samples(_pts);
+
             ///
             ///Uncomment this function if your samples are going out of the domain range
+            /// for toroidal wrapping
             ///
-            //_sampler->toroidalWrapping(_pts);
+            //_sampler->toroidal_wrapping(_pts);
 
             ///
             /// Add index of each file with trailing zeros

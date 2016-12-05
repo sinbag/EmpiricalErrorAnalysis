@@ -53,7 +53,7 @@ src/core/*.cpp
 src/analyzer/*.cpp
 src/integrand/*.cpp
 src/sampler/*.cpp
-src/main/main.cxx
+src/main/main.cpp
 )
 
 FILE ( GLOB HEADERS

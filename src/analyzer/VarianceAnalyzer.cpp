@@ -52,11 +52,6 @@ VarianceAnalyzer::VarianceAnalyzer(Sampler* s, Integrand *I, const vector<string
     _sampler = s;
     CLParser::FindMultiArgs<int>(-1, _nSamples, AnalyzerParams, NSampStr) ;
     _nTrials = CLParser::FindArgument<int>(AnalyzerParams, nTrialsStr) ;
-
-    // create integrand object from the -I section of command line
-    // implemented as a virtual constructor
-    // treat this as a call to the new operator, and delete the object integrand responsibly
-//    _integrand = (IntegrandPrototype::Generate(IntegString)) ;
 }
 
 namespace progressive {
@@ -110,13 +105,11 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
     std::stringstream ss;
 
     ss.str(std::string());
-//     ss << prefix << "-mean-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
-    ss << prefix << "-mean.txt";
+    ss << prefix << "-mean-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
     std::ofstream ofsmean(ss.str().c_str(), std::ofstream::app) ;
 
     ss.str(std::string());
-//     ss << prefix << "-variance-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
-    ss << prefix << "-var.txt";
+    ss << prefix << "-variance-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
     std::ofstream ofsvar(ss.str().c_str(), std::ofstream::app) ;
 
     ofsmean << std::fixed << std::setprecision(15);
