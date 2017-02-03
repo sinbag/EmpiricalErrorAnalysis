@@ -14,10 +14,12 @@
 #include <integrand.h>
 #include <DiskIntegrand.h>
 #include <GaussianIntegrand.h>
-#include <QPIntegrand.h>
 #include <PBRTIntegrand.h>
-#include <PWConstIntegrand.h>
 
+#ifdef CGAL_ENABLED
+#include <QPIntegrand.h>
+#include <PWConstIntegrand.h>
+#endif
 
 using std::vector ;
 using std::map ;
@@ -39,10 +41,12 @@ IntegrandPrototype::IntegrandPrototype()
 
     ////////////// MODIFY THIS /////////////
     vi.push_back(new DiskIntegrand());
-    vi.push_back(new QuadPixelIntegrand());
-    vi.push_back(new PWConstantIntegrand());
     vi.push_back(new GaussianIntegrand());
     vi.push_back(new PBRTIntegrand());
+#ifdef CGAL_ENABLED
+    vi.push_back(new QuadPixelIntegrand());
+    vi.push_back(new PWConstantIntegrand());
+#endif
     // vi.push_back(new MyNewIntegrand());// add a line like this
 
     for (int i(0); i<vi.size(); i++)

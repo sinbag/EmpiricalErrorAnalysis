@@ -7,8 +7,6 @@
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Polygon_2_algorithms.h>
 
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 				White quad within black pixel
 // Quad defined by

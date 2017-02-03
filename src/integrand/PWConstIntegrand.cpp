@@ -1,6 +1,9 @@
 #include <PWConstIntegrand.h>
 #include <cmdlnparser.h>
+
+#ifdef CGAL_ENABLED
 #include <CGAL/Polygon_2_algorithms.h>
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 			Piecewise constant simplicial complex in 2D
@@ -63,3 +66,5 @@ PWConstantIntegrand::PWConstantIntegrand(const vector<string>& IntegParams)
 
     RefVal = refInt ;
 }
+
+#endif

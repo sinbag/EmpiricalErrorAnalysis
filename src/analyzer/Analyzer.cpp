@@ -43,7 +43,7 @@ Analyzer* AnalyzerPrototype::Generate(Sampler* s, Integrand *I, const vector<str
 {
     string type = CLParser::FindArgument<string>(AnalyzerString, CLArg::AnalyzerType) ;
 
-    std::cerr << "\t \tAnalyzer type: " << type << std::endl;
+    std::cerr << "Analyzer type: " << type << std::endl;
 
     map<string, Analyzer*>::iterator it = exemplars.find(type) ;
     if (it==exemplars.end()) throw invalid_argument("Unknown analyzer type") ;
