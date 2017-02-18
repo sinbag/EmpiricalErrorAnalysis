@@ -24,7 +24,7 @@ If you use this source code in your research, please cite the code using the fol
 
 ## Dependencies
 * List of dependencies:
- * CGAL (only [Main library](http://doc.cgal.org/latest/Manual/installation.html#seclibraries) required with basic functionalities) used for PWConstant and QuadPixel integrands. [Install CGAL](http://www.cgal.org/download.html) prior to `cmake..`. 
+ * CGAL is made optional. If you happen to use integrands that depend on CGAL (PWConstIntegrand & QPIntegrand) then use `set(MYCGAL_ENABLED 1)` in the CMakeLists.txt and [Install CGAL](http://www.cgal.org/download.html) (only [Main library](http://doc.cgal.org/latest/Manual/installation.html#seclibraries) required with basic functionalities) prior to `cmake..`. 
  * GMP (While installing CGAL, GMP gets installed as a dependency)
  * TBB (for parallel computation of Fourier analysis) made optional for those who are only interested in the variance/mse analysis. Simply set TBB_ENABLED flag to zero in the CMakeLists.txt file to disable TBB. After that, you don't even need an installation of TBB on your system. 
  * Python (only required for PBRTIntegrand, the source code still compiles and run for other integrands without Python)
