@@ -132,7 +132,7 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
        for (int trial=1; trial <= _nTrials; trial++)
        {
            ///Uncomment this line to monitor the progress
-           //fprintf(stderr, "\r %d / %d : %d", trial, _nTrials, n);
+           fprintf(stderr, "\r %d / %d : %d", trial, _nTrials, n);
 
            _pts.resize(0);
            _sampler->Sample(_pts, n) ;

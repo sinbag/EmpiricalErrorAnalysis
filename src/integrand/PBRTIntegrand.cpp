@@ -55,9 +55,9 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
     for(int i = 0; i < 4; i++)
         _crop[i] = MultiArgs[i];
 
-    std::cerr << "Computing PBRT reference image using " << _ReferenceNspp << " samples..." << std::endl;
-    RefVal = computePBRTIntegral("reference.exr", _ReferenceNspp, "halton");
-    std::cerr << "reference image computed!!!" << std::endl;
+//    std::cerr << "Computing PBRT reference image using " << _ReferenceNspp << " samples..." << std::endl;
+//    RefVal = computePBRTIntegral("reference.exr", _ReferenceNspp, "halton");
+//    std::cerr << "reference image computed!!!" << std::endl;
 }
 
 
@@ -117,6 +117,8 @@ double PBRTIntegrand::computePBRTIntegral(std::string imageName, int NSPP, std::
         exit(-1);
     }
 
+    //std::cerr <<width << " " << height << std::endl;
+
     ///
     ///Uncomment to verify that *pixels carry the correct image;
     ///
@@ -127,11 +129,13 @@ double PBRTIntegrand::computePBRTIntegral(std::string imageName, int NSPP, std::
     /// There are four channels RGBA, we don't consider the A channel
     ///
     double integral = 0.0;
-    for(int i=0; i< 3 * width * height; i++){
-        integral += pixels[i];
-    }
+    //for(int i=0; i< 3 * width * height; i++){
+        //integral += pixels[i];
+    /// Converting to Luminance channel
+    integral = 0.299 * pixels[0] + 0.587 * pixels[1] + 0.114 * pixels[2];
+    //}
 
-    integral /= float(3.0 * width *height);
+    //integral /= float(3.0 * width *height);
 
     return integral;
 }
