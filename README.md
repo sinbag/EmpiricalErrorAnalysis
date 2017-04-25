@@ -70,7 +70,7 @@ to see the command line usage. Example to call Disk Integrand for variance analy
 --pbrtstype stratified
 --refnspp 1
 --img pbrt-eea.exr 
--A --atype var --nsamps 9 16 25 36 64 --nreps 200 
+-A --atype var --nsamps 1 4 16 64 256 1024 --nreps 200 
 -G --ofile pbrt-killeroos
 ```
  * The Pbrt Integrand directly calls the integrators that are called from the `SamplerIntegrator::Render(const Scene &scene){...}` function. That includes: `directlighting, whitted, path, volpath` integrators. However, it would be straight forward to use this error analysis source code for other integrators (with minor tweaks by the user).
@@ -86,8 +86,8 @@ ProgressReporter reporter(nTiles.x * nTiles.y, "Rendering");
 
 std::random_device rd;
 static thread_local std::mt19937 generator(rd());
-std::uniform_int_distribution<long> dis(1, 100000000);
-unsigned int randomseed = dis(gen);
+std::uniform_int_distribution<uint32_t> dis(0, std::numeric_limits<uint32_t>::max());
+unsigned int randomseed = dis(generator);
 
 ...
 
@@ -95,8 +95,9 @@ unsigned int randomseed = dis(gen);
 int seed = tile.y * nTiles.x + tile.x + randomseed;
 ...
  ```
- 
-* MSE analyzer works the same as variance analyzer but you need a reference value. For pbrt-v3, you need to compute the reference image (ReferenceSampler used Halton) with huge number of samples per pixel (`--refnspp 1000`). 
+* Note also that, currently if the user wants to perform convergence analysis for one pixel, pbrt-v3 does not provide direct flexibility to choose one pixel but rather a range of pixels through crop window size in `[0,1]`. We recommend not to use this default `[0,1]` crop window sizing that comes within pbrt-v3 repo. User should update the crop window intake (in `pbrt/src/core/film.cpp`) to actual pixel coordinate to get correct results, e.g. if you want to test pixel `(277,256)` then the crop window coordinates passed to EEA command line should look like this: `--crop 277 278 256 257`. This would also require changing the `tilesize = 1` in the `void Render(const Scene &scene){...}` call function in original pbrt source code, to avoid pixel counter going out of range. Special attention must also be given while choosing pixels that are near boundaries. One quick fix that we found is to update the sampleBounds to: `Bounds2i sampleBounds = camera->film->croppedPixelBounds;` which works well.
+
+* MSE analyzer works the same as variance analyzer but you need a reference value. For pbrt-v3, you need to compute the reference image (ReferenceSampler used Halton) with huge number of samples per pixel (at least four times the maxiumum sample count used to render given pixel, e.g. `--refnspp 4096`).  
 Example to call PBRTIntegrand (all in one line):
 ```
 ./build/eea -S --stype Random 
@@ -106,8 +107,8 @@ Example to call PBRTIntegrand (all in one line):
 --pypath path-to-FAS2016/code/Analysis/python/pbrt-cl.py 
 --crop 0.25 0.75 0.25 0.75 
 --pbrtstype stratified
---refnspp 1000
+--refnspp 4096
 --img pbrt-eea.exr 
--A --atype var --nsamps 9 16 25 36 64 --nreps 200 
+-A --atype var --nsamps 1 4 16 64 256 1024 --nreps 200 
 -G --ofile pbrt-killeroos
 ```

@@ -56,7 +56,7 @@ void FourierAnalyzer::continuous_fourier_spectrum(){
 #ifdef TBB_ENABLED
     /// To limit the number of threads uncomment the line below and
     /// use the number of threads you want to devote here.
-    //tbb::task_scheduler_init init(8);
+    tbb::task_scheduler_init init(4);
     tbb::parallel_for(
                 tbb::blocked_range2d<int>(0,_xRes, 16, 0, _yRes, 16),
                 [=](const tbb::blocked_range2d<int>& imgblock ) {

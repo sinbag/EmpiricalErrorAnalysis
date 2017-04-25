@@ -55,9 +55,9 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
     for(int i = 0; i < 4; i++)
         _crop[i] = MultiArgs[i];
 
-//    std::cerr << "Computing PBRT reference image using " << _ReferenceNspp << " samples..." << std::endl;
-//    RefVal = computePBRTIntegral("reference.exr", _ReferenceNspp, "halton");
-//    std::cerr << "reference image computed!!!" << std::endl;
+    std::cerr << "Computing PBRT reference image using " << _ReferenceNspp << " samples..." << std::endl;
+    RefVal = computePBRTIntegral("reference.exr", _ReferenceNspp, "stratified");
+    std::cerr << "reference image computed!!!" << std::endl;
 }
 
 
@@ -112,7 +112,7 @@ double PBRTIntegrand::computePBRTIntegral(std::string imageName, int NSPP, std::
     int width =0, height =0;
     float *pixels;
     if(!read_exr_rgb(imageName, pixels, width, height)){
-        std::cerr << "PBRTIntegrand: Couldn't load the pbrt-eea.exr file !!!" << std::endl;
+        std::cerr << "PBRTIntegrand: Couldn't load the " << imageName << " file !!!" << std::endl;
         std::cerr << "aborting..." << std::endl;
         exit(-1);
     }
@@ -122,24 +122,23 @@ double PBRTIntegrand::computePBRTIntegral(std::string imageName, int NSPP, std::
     ///
     ///Uncomment to verify that *pixels carry the correct image;
     ///
-    //    write_exr_rgb("test.exr", pixels, width, height);
+    //write_exr_rgb("test.exr", pixels, width, height);
 
     ///
-    /// Average the image over all the pixels to return the output value
-    /// There are four channels RGBA, we don't consider the A channel
+    /// Compute luminance using: HDTV with BT.709 (https://en.wikipedia.org/wiki/YUV)
+    /// and average over all the pixels in the cropwindow.
+    /// We only consider RGB channels (no alpha channel)
     ///
     double integral = 0.0;
-    //for(int i=0; i< 3 * width * height; i++){
-        //integral += pixels[i];
-    /// Converting to Luminance channel
-    integral = 0.299 * pixels[0] + 0.587 * pixels[1] + 0.114 * pixels[2];
-    //}
+    for(int i=0; i< width * height; i++){
+        float luminance = 0.2126 * pixels[3*i] + 0.7152 * pixels[3*i+1] + 0.0722 * pixels[3*i+2];
+        integral += luminance;
+    }
 
-    //integral /= float(3.0 * width *height);
+    integral /= float(width*height);
 
     return integral;
 }
-
 
 double PBRTIntegrand::operator () (const Point2d& p) const
 {
