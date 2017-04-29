@@ -117,6 +117,8 @@ double PBRTIntegrand::computePBRTIntegral(std::string imageName, int NSPP, std::
         exit(-1);
     }
 
+    //std::cerr <<width << " " << height << std::endl;
+
     ///
     ///Uncomment to verify that *pixels carry the correct image;
     ///
