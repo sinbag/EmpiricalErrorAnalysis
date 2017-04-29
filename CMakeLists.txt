@@ -10,7 +10,7 @@ project(eea)
 #option(MYCGAL_ENABLED "Run the program with Cgal" OFF)
 
 set(MYCGAL_ENABLED 0)
-set(TBB_ENABLED 1)
+set(TBB_ENABLED 0)
 
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
