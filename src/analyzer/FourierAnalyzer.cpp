@@ -5,12 +5,11 @@
 #include <iomanip>
 #include <write-exr.h>
 
-#ifdef TBB_ENABLED
 #include <tbb/tbb.h>
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_for.h>
 #include <tbb/task_scheduler_init.h>
-#endif
+
 ///
 /// \brief FourierAnalyzer::trialStepStr
 ///
@@ -53,10 +52,10 @@ void FourierAnalyzer::continuous_fourier_spectrum(){
     int half_yRes = _yRes * 0.5;
     int npoints = _pts.size();
 
-#ifdef TBB_ENABLED
+
     /// To limit the number of threads uncomment the line below and
     /// use the number of threads you want to devote here.
-    tbb::task_scheduler_init init(4);
+    //tbb::task_scheduler_init init(4);
     tbb::parallel_for(
                 tbb::blocked_range2d<int>(0,_xRes, 16, 0, _yRes, 16),
                 [=](const tbb::blocked_range2d<int>& imgblock ) {
@@ -78,23 +77,6 @@ void FourierAnalyzer::continuous_fourier_spectrum(){
         }
     }
     );
-#else
-    for(int row = 0; row < _xRes; row++){
-        for(int col = 0; col < _yRes; col++){
-            double fx = 0.f, fy = 0.f;
-            double wx = (col-half_xRes)*_frequencyStep;;
-            double wy = (row-half_yRes)*_frequencyStep;;
-
-            for (int i = 0; i < npoints; ++i) {
-                double exp = -twopi * (wx * _pts[i].x + wy * _pts[i].y);
-                fx += cos(exp);
-                fy += sin(exp);
-            }
-            _complexSpectrum[row*_xRes+col].real(fx); ///real part
-            _complexSpectrum[row*_xRes+col].imag(fy);  ///imaginary part
-        }
-    }
-#endif
 }
 
 void FourierAnalyzer::power_fourier_spectrum(){
@@ -222,6 +204,3 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
     delete [] powerAccum;
     powerAccum = 0;
 }
-
-
-

@@ -28,24 +28,13 @@ if(MYCGAL_ENABLED)
     set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS TRUE CACHE BOOL "CGAL's CMAKE Setup is super annoying ")
 endif(MYCGAL_ENABLED)
 
-SET(ILMBASE_NAMESPACE_VERSIONING OFF CACHE BOOL " " FORCE)
-SET(OPENEXR_NAMESPACE_VERSIONING OFF CACHE BOOL " " FORCE)
-SET(OPENEXR_BUILD_SHARED_LIBS    OFF CACHE BOOL " " FORCE)
-SET(ILMBASE_BUILD_SHARED_LIBS    OFF CACHE BOOL " " FORCE)
-ADD_SUBDIRECTORY(ext/openexr)
-SET_PROPERTY(TARGET IexMath eLut toFloat b44ExpLogTable dwaLookups CopyIlmBaseLibs IlmThread Half Iex Imath IlmImf PROPERTY FOLDER "dependencies")
-INCLUDE_DIRECTORIES (
-  ext/openexr/IlmBase/Imath
-  ext/openexr/IlmBase/Half
-  ext/openexr/IlmBase/Iex
-  ext/openexr/OpenEXR/IlmImf
-  ${CMAKE_BINARY_DIR}/ext/openexr/IlmBase/config
-  ${CMAKE_BINARY_DIR}/ext/openexr/OpenEXR/config
-)
-
-SET(OPENEXR_LIBS IlmImf Imath Half)
+add_subdirectory(ext ext_build)
 
 include_directories(
+
+# OpenEXR high dynamic range bitmap library
+${OPENEXR_INCLUDE_DIRS}
+
 # Intel Thread Building Blocks
 ${TBB_INCLUDE_DIR}
 
@@ -95,6 +84,7 @@ endif(MYCGAL_ENABLED)
 
 set(EEA_DEPS_LIBRARIES
   tbb_static
+  IlmImf
 )
 
 
