@@ -6,11 +6,9 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules/")
 project(eea)
 
 # All demos
-#option(TBB_ENABLED "Run the program with multithreaded Intel Tbb library" OFF)
 #option(MYCGAL_ENABLED "Run the program with Cgal" OFF)
 
 set(MYCGAL_ENABLED 0)
-set(TBB_ENABLED 0)
 
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
@@ -23,10 +21,6 @@ else()
         message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
 endif()
 
-if(TBB_ENABLED)
-    find_package(TBB REQUIRED)
-    add_definitions(-DTBB_ENABLED)
-endif(TBB_ENABLED)
 
 if(MYCGAL_ENABLED)
     find_package(GMP REQUIRED)
@@ -52,10 +46,8 @@ INCLUDE_DIRECTORIES (
 SET(OPENEXR_LIBS IlmImf Imath Half)
 
 include_directories(
-
-if(TBB_ENABLED)
-    ${TBB_INCLUDE_DIRS}
-endif(TBB_ENABLED)
+# Intel Thread Building Blocks
+${TBB_INCLUDE_DIR}
 
 ${GMP_INCLUDE_DIR}
 ext
@@ -101,20 +93,17 @@ else()
     )
 endif(MYCGAL_ENABLED)
 
+set(EEA_DEPS_LIBRARIES
+  tbb_static
+)
+
+
 add_executable(eea ${SOURCE} ${HEADERS})
 
-if(TBB_ENABLED)
-    if(MYCGAL_ENABLED)
-        TARGET_LINK_LIBRARIES(eea blas ${GMP_LIBRARIES} ${OPENEXR_LIBS} ${TBB_LIBRARIES})
-    else()
-        TARGET_LINK_LIBRARIES(eea ${OPENEXR_LIBS} ${TBB_LIBRARIES})
-    endif(MYCGAL_ENABLED)
+if(MYCGAL_ENABLED)
+    TARGET_LINK_LIBRARIES(eea blas ${GMP_LIBRARIES} ${OPENEXR_LIBS} ${EEA_DEPS_LIBRARIES})
 else()
-    if(MYCGAL_ENABLED)
-        TARGET_LINK_LIBRARIES(eea blas ${GMP_LIBRARIES} ${OPENEXR_LIBS})
-    else()
-        TARGET_LINK_LIBRARIES(eea ${OPENEXR_LIBS})
-    endif(MYCGAL_ENABLED)
-endif(TBB_ENABLED)
+    TARGET_LINK_LIBRARIES(eea ${OPENEXR_LIBS} ${EEA_DEPS_LIBRARIES})
+endif(MYCGAL_ENABLED)
 
 install(TARGETS eea RUNTIME DESTINATION bin)
