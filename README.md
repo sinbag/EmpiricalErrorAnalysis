@@ -51,7 +51,7 @@ git submodule update --init --recursive
 ```
 to see the command line usage. Example to call Disk Integrand for variance analysis is as follows:
 ```
-./build/exec -S --stype Jittered -I Disk --rad 0.25 --center 0.5 0.5 -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile testDisk
+./build/exec -S --stype Jittered -I --itype Disk --rad 0.25 --center 0.5 0.5 -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile testDisk
 ```
 * Detailed description of all the parameters is added in the recent version of the course notes provided on the [project page](https://www.cs.dartmouth.edu/~wjarosz/publications/subr16fourier.html). 
 
