@@ -23,7 +23,7 @@ If you use this source code in your research, please cite the code using the fol
 >}
 
 ## Dependencies
-* List of dependencies:
+List of dependencies:
  * CGAL is made optional. If you happen to use integrands that depend on CGAL (PWConstIntegrand & QPIntegrand) then use `set(MYCGAL_ENABLED 1)` in the CMakeLists.txt and [Install CGAL](http://www.cgal.org/download.html) (only [Main library](http://doc.cgal.org/latest/Manual/installation.html#seclibraries) required with basic functionalities) prior to `cmake..`. 
  * GMP (While installing CGAL, GMP gets installed as a dependency)
  * TBB library ships as a submodule (no more a dependency). Don't forget to clone with a `--recursive` tag. 
