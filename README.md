@@ -30,7 +30,7 @@ List of dependencies:
  * Python (only required for PBRTIntegrand, the source code still compiles and run for other integrands without Python)
  
 ## Compiling
-* Use recursive tag to clone from git to add the Openexr submodule:
+* Use recursive tag to clone from git to add the Openexr and TBB submodules:
 ```
 git clone --recursive https://github.com/sinbag/EmpiricalErrorAnalysis.git
 cd EmpiricalErrorAnalysis
