@@ -199,7 +199,7 @@ void jitteredSampler::Sample(vector<Point2d> &pts, int n) const
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
 
-    pts.resize(n) ;
+    pts.resize(sqrtN * sqrtN) ;
 
     double maxRange = bBoxMax - bBoxMin;
     std::random_device rd;
@@ -247,7 +247,7 @@ void gridSampler::Sample(vector<Point2d>& pts, int n) const
     int sqrtN (ceil(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
 
-    pts.resize(n) ;
+    pts.resize(sqrtN * sqrtN) ;
 
     for (int i=0; i<sqrtN; i++)
     {
@@ -284,7 +284,7 @@ void gjSampler::Sample(vector<Point2d>& pts, int n) const
 {
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
-    pts.resize(n) ;
+    pts.resize(sqrtN * sqrtN) ;
     std::random_device rd;
 
     for (int i=0; i<sqrtN; i++)
@@ -330,7 +330,7 @@ void bjSampler::Sample(vector<Point2d>& pts, int n) const
 {
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
-    pts.resize(n) ;
+    pts.resize(sqrtN * sqrtN) ;
     std::random_device rd;
 
     for (int i=0; i<sqrtN; i++)
