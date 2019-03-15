@@ -149,6 +149,8 @@ bool CLParser::FindMultiArgs(int nargs, vector<T>& argOut, const vector<string>&
 
             throw(invalid_argument("Did you forget to specify enough parameters after " + MultiArgsStr + "?: Expecting " + nstr)) ;
         }
+        else
+            throw (invalid_argument("Did you forget to specify " + MultiArgsStr + "?\n"));
     }
 
     if (nargs<0)
